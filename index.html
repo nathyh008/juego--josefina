@@ -3,133 +3,280 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Desafío - Sopa de Letras</title>
+
+<title>🧠 Misión 6.º</title>
 
 <style>
-* {
-  box-sizing: border-box;
+
+@import url('https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;600;700;800&display=swap');
+
+*{
+box-sizing:border-box;
 }
 
-body {
-  margin: 0;
-  font-family: Arial, sans-serif;
-  background: linear-gradient(135deg, #dff6ff, #fff3d6);
-  min-height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 15px;
+body{
+margin:0;
+font-family:'Baloo 2',Arial,sans-serif;
+min-height:100vh;
+background:
+radial-gradient(circle at 10% 20%,#ffd6e7 0 12%,transparent 13%),
+radial-gradient(circle at 90% 10%,#c8f7ff 0 14%,transparent 15%),
+radial-gradient(circle at 85% 90%,#fff0a8 0 12%,transparent 13%),
+linear-gradient(135deg,#8ed8ff,#c7b5ff,#ffb6d9);
+padding:18px;
+color:#34345c;
 }
 
-.contenedor {
-  width: 100%;
-  max-width: 650px;
-  background: white;
-  border-radius: 25px;
-  padding: 25px;
-  box-shadow: 0 8px 25px rgba(0,0,0,.15);
-  text-align: center;
+.contenedor{
+max-width:900px;
+margin:auto;
+background:rgba(255,255,255,.96);
+border-radius:35px;
+padding:25px;
+box-shadow:0 15px 45px rgba(49,40,100,.25);
 }
 
-h1 {
-  margin: 5px 0;
-  color: #4056a1;
-  font-size: 30px;
+.encabezado{
+text-align:center;
 }
 
-.subtitulo {
-  color: #555;
-  margin-bottom: 15px;
+.badge{
+display:inline-block;
+background:linear-gradient(90deg,#ff5fa2,#7d6cff);
+color:white;
+padding:7px 18px;
+border-radius:30px;
+font-weight:700;
+letter-spacing:1px;
 }
 
-.contador {
-  font-size: 20px;
-  font-weight: bold;
-  color: #e76f51;
-  margin-bottom: 15px;
+h1{
+font-size:clamp(34px,7vw,58px);
+line-height:1;
+margin:8px 0;
+background:linear-gradient(90deg,#ff4f91,#765cff,#00aeea);
+-webkit-background-clip:text;
+color:transparent;
 }
 
-#sopa {
-  display: grid;
-  grid-template-columns: repeat(10, 1fr);
-  gap: 3px;
-  max-width: 500px;
-  margin: auto;
-  user-select: none;
+.descripcion{
+font-size:18px;
+margin:0 0 18px;
 }
 
-.letra {
-  aspect-ratio: 1;
-  background: #f1f5ff;
-  border: 1px solid #ccd5ee;
-  border-radius: 6px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-size: clamp(14px, 4vw, 23px);
-  font-weight: bold;
-  cursor: pointer;
-  transition: .15s;
+.estadisticas{
+display:grid;
+grid-template-columns:repeat(4,1fr);
+gap:10px;
+margin-bottom:20px;
 }
 
-.letra.seleccionada {
-  background: #ffd166;
-  color: #333;
+.stat{
+border-radius:20px;
+padding:10px 5px;
+font-weight:700;
+background:#f2f3ff;
 }
 
-.letra.encontrada {
-  background: #70c1b3;
-  color: white;
+.stat span{
+display:block;
+font-size:25px;
 }
 
-.palabras {
-  margin-top: 20px;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 8px;
+.puntos{background:#fff0b8}
+.tiempo{background:#c9f4ff}
+.vidas{background:#ffd3e4}
+.racha{background:#d9ffd5}
+
+.juego{
+display:flex;
+gap:25px;
+align-items:flex-start;
 }
 
-.palabra {
-  background: #f1f1f1;
-  padding: 7px 12px;
-  border-radius: 15px;
-  font-weight: bold;
-  font-size: 14px;
+.tablero{
+flex:1;
 }
 
-.palabra.encontrada {
-  background: #70c1b3;
-  color: white;
-  text-decoration: line-through;
+#sopa{
+display:grid;
+grid-template-columns:repeat(12,1fr);
+gap:4px;
+background:#7065d8;
+padding:7px;
+border-radius:20px;
+box-shadow:0 8px 20px rgba(65,54,160,.25);
+touch-action:none;
 }
 
-#mensaje {
-  display: none;
-  margin-top: 20px;
-  padding: 18px;
-  border-radius: 15px;
-  background: #fff3cd;
-  color: #765900;
-  font-size: 22px;
-  font-weight: bold;
+.letra{
+aspect-ratio:1;
+display:flex;
+align-items:center;
+justify-content:center;
+background:#fff;
+border-radius:8px;
+font-weight:800;
+font-size:clamp(13px,3vw,24px);
+cursor:pointer;
+transition:.15s;
+color:#454572;
 }
 
-button {
-  margin-top: 15px;
-  padding: 12px 22px;
-  border: none;
-  border-radius: 20px;
-  background: #4056a1;
-  color: white;
-  font-size: 16px;
-  cursor: pointer;
+.letra:hover{
+transform:scale(1.08);
+background:#fff4a8;
 }
 
-.instruccion {
-  font-size: 15px;
-  color: #666;
+.letra.seleccionada{
+background:#ffca55;
+transform:scale(1.05);
 }
+
+.letra.encontrada{
+background:#55d6a4;
+color:white;
+animation:pop .35s;
+}
+
+@keyframes pop{
+0%{transform:scale(.5)}
+70%{transform:scale(1.15)}
+100%{transform:scale(1)}
+}
+
+.panel{
+width:260px;
+background:#f5f4ff;
+border-radius:25px;
+padding:18px;
+}
+
+.panel h2{
+margin-top:0;
+color:#6256d7;
+}
+
+.palabras{
+display:flex;
+flex-wrap:wrap;
+gap:8px;
+}
+
+.palabra{
+padding:6px 10px;
+border-radius:15px;
+background:white;
+font-weight:700;
+font-size:14px;
+box-shadow:0 2px 5px #ddd;
+}
+
+.palabra.encontrada{
+background:#55d6a4;
+color:white;
+text-decoration:line-through;
+}
+
+.instruccion{
+margin-top:18px;
+background:#fff5c7;
+padding:12px;
+border-radius:15px;
+font-size:14px;
+}
+
+button{
+width:100%;
+margin-top:18px;
+padding:14px;
+border:0;
+border-radius:20px;
+font-family:inherit;
+font-size:18px;
+font-weight:800;
+color:white;
+background:linear-gradient(90deg,#ff579b,#7461e8);
+cursor:pointer;
+box-shadow:0 6px 15px rgba(95,80,210,.3);
+transition:.2s;
+}
+
+button:hover{
+transform:translateY(-2px);
+}
+
+#final{
+display:none;
+position:fixed;
+inset:0;
+background:rgba(42,35,80,.75);
+z-index:10;
+align-items:center;
+justify-content:center;
+padding:20px;
+}
+
+.finalCaja{
+background:white;
+border-radius:35px;
+padding:35px;
+max-width:450px;
+width:100%;
+text-align:center;
+box-shadow:0 20px 60px rgba(0,0,0,.3);
+}
+
+.finalEmoji{
+font-size:70px;
+}
+
+.finalCaja h2{
+font-size:38px;
+margin:5px;
+color:#6256d7;
+}
+
+.resultado{
+font-size:22px;
+margin:15px;
+}
+
+@media(max-width:700px){
+
+body{
+padding:8px;
+}
+
+.contenedor{
+padding:14px;
+border-radius:25px;
+}
+
+.estadisticas{
+grid-template-columns:repeat(2,1fr);
+}
+
+.juego{
+display:block;
+}
+
+.panel{
+width:100%;
+margin-top:18px;
+}
+
+#sopa{
+gap:3px;
+padding:5px;
+}
+
+.letra{
+border-radius:5px;
+}
+
+}
+
 </style>
 </head>
 
@@ -137,30 +284,82 @@ button {
 
 <div class="contenedor">
 
-<h1>🔎 DESAFÍO: SOPA DE LETRAS</h1>
+<div class="encabezado">
 
-<p class="subtitulo">
-¡Encontrá las 10 palabras escondidas!
+<div class="badge">🎮 DESAFÍO ESCOLAR</div>
+
+<h1>🧠 MISIÓN 6.º</h1>
+
+<p class="descripcion">
+¡Encontrá todas las palabras antes de que se termine el tiempo!
 </p>
 
-<p class="instruccion">
-Tocá las letras que forman una palabra.
-</p>
-
-<div class="contador">
-Encontradas: <span id="cantidad">0</span> / 10
 </div>
+
+<div class="estadisticas">
+
+<div class="stat puntos">
+⭐ PUNTOS
+<span id="puntos">0</span>
+</div>
+
+<div class="stat tiempo">
+⏱️ TIEMPO
+<span id="tiempo">90</span>
+</div>
+
+<div class="stat vidas">
+❤️ VIDAS
+<span id="vidas">3</span>
+</div>
+
+<div class="stat racha">
+🔥 RACHA
+<span id="racha">0</span>
+</div>
+
+</div>
+
+<div class="juego">
+
+<div class="tablero">
 
 <div id="sopa"></div>
 
-<div class="palabras" id="palabras"></div>
-
-<div id="mensaje">
-🎉 ¡FELICITACIONES! 🎉<br>
-Encontraste todas las palabras.
 </div>
 
-<button onclick="location.reload()">🔄 Jugar nuevamente</button>
+<div class="panel">
+
+<h2>🔎 Encontrá:</h2>
+
+<div class="palabras" id="palabras"></div>
+
+<div class="instruccion">
+💡 Las palabras pueden aparecer
+<strong>horizontal, vertical o diagonalmente</strong>.
+</div>
+
+<button onclick="reiniciar()">🔄 NUEVO DESAFÍO</button>
+
+</div>
+
+</div>
+
+</div>
+
+<div id="final">
+
+<div class="finalCaja">
+
+<div class="finalEmoji" id="emojiFinal">🏆</div>
+
+<h2 id="tituloFinal">¡MISIÓN CUMPLIDA!</h2>
+
+<div class="resultado" id="resultadoFinal"></div>
+
+<button onclick="reiniciar()">🎮 JUGAR DE NUEVO</button>
+
+</div>
 
 </div>
 
@@ -171,148 +370,443 @@ const palabras = [
 "ESCUELA",
 "AMISTAD",
 "CIENCIA",
-"LIBRO",
 "NATURALEZA",
-"MUSICA",
-"ANIMAL",
+"AVENTURA",
+"ANIMALES",
 "FAMILIA",
-"JUEGO"
+"JUEGO",
+"MUSICA",
+"LECTURA",
+"FUTURO"
 ];
 
-const filas = [
-"PLANETAQWE",
-"RTYESCUELA",
-"AMISTADZXCV",
-"QCIENCIAASD",
-"LIBROFGHJK",
-"NATURALEZA",
-"MUSICAZXCVB",
-"ANIMALQWERT",
-"FAMILIAASDF",
-"JUEGOPLKJH"
-];
+const tamaño=12;
 
-let seleccion = [];
-let encontradas = [];
+let tablero=[];
+let encontradas=[];
+let seleccion=[];
+let puntos=0;
+let vidas=3;
+let racha=0;
+let tiempo=90;
+let jugando=true;
+let timer;
 
-const sopa = document.getElementById("sopa");
-const lista = document.getElementById("palabras");
-const cantidad = document.getElementById("cantidad");
-const mensaje = document.getElementById("mensaje");
+const letras="ABCDEFGHIJKLMNÑOPQRSTUVWXYZ";
 
-palabras.forEach(p => {
-  const div = document.createElement("div");
-  div.className = "palabra";
-  div.id = "palabra-" + p;
-  div.textContent = p;
-  lista.appendChild(div);
-});
+function crearTablero(){
 
-let tablero = [];
+tablero=[];
 
-filas.forEach((fila, i) => {
-  tablero[i] = fila.split("");
-});
+for(let i=0;i<tamaño;i++){
 
-for(let f=0; f<10; f++){
-  for(let c=0; c<10; c++){
+tablero[i]=[];
 
-    const letra = document.createElement("div");
+for(let j=0;j<tamaño;j++){
 
-    letra.className = "letra";
-    letra.textContent = tablero[f][c];
+tablero[i][j]=letras[Math.floor(Math.random()*letras.length)];
 
-    letra.dataset.fila = f;
-    letra.dataset.columna = c;
-
-    letra.addEventListener("click", () => seleccionar(letra));
-
-    sopa.appendChild(letra);
-  }
 }
 
-function seleccionar(letra){
+}
 
-  if(letra.classList.contains("encontrada")) return;
+for(const palabra of palabras){
 
-  letra.classList.toggle("seleccionada");
+colocarPalabra(palabra);
 
-  const f = letra.dataset.fila;
-  const c = letra.dataset.columna;
+}
 
-  const indice = seleccion.findIndex(x => x.f == f && x.c == c);
+}
 
-  if(indice >= 0){
-    seleccion.splice(indice,1);
-  }else{
-    seleccion.push({f,c});
-  }
+function colocarPalabra(palabra){
 
-  comprobar();
+const direcciones=[
+[0,1],
+[1,0],
+[1,1],
+[1,-1]
+];
+
+let colocada=false;
+
+while(!colocada){
+
+let dir=direcciones[Math.floor(Math.random()*direcciones.length)];
+
+let fila=Math.floor(Math.random()*tamaño);
+let col=Math.floor(Math.random()*tamaño);
+
+let ultimaFila=fila+dir[0]*(palabra.length-1);
+let ultimaCol=col+dir[1]*(palabra.length-1);
+
+if(
+ultimaFila<0 ||
+ultimaFila>=tamaño ||
+ultimaCol<0 ||
+ultimaCol>=tamaño
+) continue;
+
+let posible=true;
+
+for(let i=0;i<palabra.length;i++){
+
+let f=fila+dir[0]*i;
+let c=col+dir[1]*i;
+
+if(
+tablero[f][c]!==""
+&& tablero[f][c]!==palabra[i]
+){
+
+posible=false;
+break;
+
+}
+
+}
+
+if(posible){
+
+for(let i=0;i<palabra.length;i++){
+
+let f=fila+dir[0]*i;
+let c=col+dir[1]*i;
+
+tablero[f][c]=palabra[i];
+
+}
+
+colocada=true;
+
+}
+
+}
+
+}
+
+function rellenar(){
+
+for(let i=0;i<tamaño;i++){
+
+for(let j=0;j<tamaño;j++){
+
+if(tablero[i][j]===""){
+
+tablero[i][j]=
+letras[Math.floor(Math.random()*letras.length)];
+
+}
+
+}
+
+}
+
+}
+
+function dibujar(){
+
+const sopa=document.getElementById("sopa");
+
+sopa.innerHTML="";
+
+for(let f=0;f<tamaño;f++){
+
+for(let c=0;c<tamaño;c++){
+
+const celda=document.createElement("div");
+
+celda.className="letra";
+
+celda.textContent=tablero[f][c];
+
+celda.dataset.f=f;
+celda.dataset.c=c;
+
+celda.addEventListener("click",()=>{
+seleccionar(celda);
+});
+
+sopa.appendChild(celda);
+
+}
+
+}
+
+}
+
+function crearLista(){
+
+const lista=document.getElementById("palabras");
+
+lista.innerHTML="";
+
+palabras.forEach(p=>{
+
+const div=document.createElement("div");
+
+div.className="palabra";
+div.id="p-"+p;
+div.textContent=p;
+
+lista.appendChild(div);
+
+});
+
+}
+
+function seleccionar(celda){
+
+if(!jugando)return;
+
+if(celda.classList.contains("encontrada"))return;
+
+celda.classList.toggle("seleccionada");
+
+const f=Number(celda.dataset.f);
+const c=Number(celda.dataset.c);
+
+const existe=seleccion.findIndex(x=>x.f===f&&x.c===c);
+
+if(existe>=0){
+
+seleccion.splice(existe,1);
+
+}else{
+
+seleccion.push({f,c});
+
+}
+
+comprobar();
+
 }
 
 function comprobar(){
 
-  let texto = "";
+let texto="";
 
-  seleccion.forEach(x => {
-    texto += tablero[x.f][x.c];
-  });
+seleccion.forEach(x=>{
+texto+=tablero[x.f][x.c];
+});
 
-  let textoInverso = texto.split("").reverse().join("");
+let inverso=texto.split("").reverse().join("");
 
-  let palabraEncontrada = null;
+let encontrada=null;
 
-  for(const palabra of palabras){
+for(const palabra of palabras){
 
-    if(!encontradas.includes(palabra)){
+if(encontradas.includes(palabra))continue;
 
-      if(texto === palabra || textoInverso === palabra){
+if(texto===palabra||inverso===palabra){
 
-        palabraEncontrada = palabra;
-        break;
-      }
-    }
-  }
-
-  if(palabraEncontrada){
-
-    encontradas.push(palabraEncontrada);
-
-    seleccion.forEach(x => {
-
-      const celda = document.querySelector(
-        `.letra[data-fila="${x.f}"][data-columna="${x.c}"]`
-      );
-
-      celda.classList.remove("seleccionada");
-      celda.classList.add("encontrada");
-
-    });
-
-    document
-      .getElementById("palabra-" + palabraEncontrada)
-      .classList.add("encontrada");
-
-    seleccion = [];
-
-    cantidad.textContent = encontradas.length;
-
-    if(encontradas.length === palabras.length){
-
-      mensaje.style.display = "block";
-
-      setTimeout(() => {
-        mensaje.scrollIntoView({behavior:"smooth"});
-      },200);
-    }
-
-  }
+encontrada=palabra;
+break;
 
 }
+
+}
+
+if(encontrada){
+
+encontradas.push(encontrada);
+
+racha++;
+
+puntos+=100+(racha*25);
+
+document.getElementById("puntos").textContent=puntos;
+document.getElementById("racha").textContent=racha;
+
+seleccion.forEach(x=>{
+
+const celda=document.querySelector(
+`.letra[data-f="${x.f}"][data-c="${x.c}"]`
+);
+
+celda.classList.remove("seleccionada");
+celda.classList.add("encontrada");
+
+});
+
+document.getElementById("p-"+encontrada)
+.classList.add("encontrada");
+
+seleccion=[];
+
+if(encontradas.length===palabras.length){
+
+terminar(true);
+
+}
+
+}else if(texto.length>=3){
+
+// Si seleccionaron algo que no forma una palabra
+// se limpia la selección al tocar una nueva letra.
+
+if(texto.length>=8){
+
+vidas--;
+
+racha=0;
+
+document.getElementById("vidas").textContent=vidas;
+document.getElementById("racha").textContent=racha;
+
+seleccion.forEach(x=>{
+
+const celda=document.querySelector(
+`.letra[data-f="${x.f}"][data-c="${x.c}"]`
+);
+
+celda.classList.remove("seleccionada");
+
+});
+
+seleccion=[];
+
+if(vidas<=0){
+
+terminar(false);
+
+}
+
+}
+
+}
+
+}
+
+function iniciarTiempo(){
+
+clearInterval(timer);
+
+timer=setInterval(()=>{
+
+if(!jugando)return;
+
+tiempo--;
+
+document.getElementById("tiempo").textContent=tiempo;
+
+if(tiempo<=0){
+
+terminar(false);
+
+}
+
+},1000);
+
+}
+
+function terminar(gano){
+
+jugando=false;
+
+clearInterval(timer);
+
+const final=document.getElementById("final");
+
+final.style.display="flex";
+
+const emoji=document.getElementById("emojiFinal");
+const titulo=document.getElementById("tituloFinal");
+const resultado=document.getElementById("resultadoFinal");
+
+if(gano){
+
+emoji.textContent="🏆";
+
+titulo.textContent="¡MISIÓN CUMPLIDA!";
+
+resultado.innerHTML=
+`🎉 Encontraste las <strong>12 palabras</strong>.<br><br>
+⭐ Puntaje: <strong>${puntos}</strong><br>
+🔥 Racha máxima: <strong>${racha}</strong>`;
+
+confeti();
+
+}else{
+
+emoji.textContent="😅";
+
+titulo.textContent="¡CASI LO LOGRÁS!";
+
+resultado.innerHTML=
+`Encontraste <strong>${encontradas.length}</strong> de 12 palabras.<br><br>
+⭐ Puntaje: <strong>${puntos}</strong><br><br>
+¡Volvé a intentarlo! 💪`;
+
+}
+
+}
+
+function confeti(){
+
+for(let i=0;i<80;i++){
+
+const confeti=document.createElement("div");
+
+confeti.style.position="fixed";
+confeti.style.left=Math.random()*100+"%";
+confeti.style.top="-10px";
+confeti.style.width="10px";
+confeti.style.height="10px";
+confeti.style.background=
+["#ff5fa2","#ffd166","#55d6a4","#7461e8","#4fc3f7"]
+[Math.floor(Math.random()*5)];
+confeti.style.zIndex="20";
+confeti.style.borderRadius="3px";
+
+document.body.appendChild(confeti);
+
+const duracion=1500+Math.random()*2000;
+
+confeti.animate(
+[
+{transform:"translateY(0) rotate(0deg)"},
+{transform:`translateY(${window.innerHeight+100}px) rotate(720deg)`}
+],
+{
+duration:duracion,
+easing:"linear"
+}
+);
+
+setTimeout(()=>confeti.remove(),duracion);
+
+}
+
+}
+
+function reiniciar(){
+
+document.getElementById("final").style.display="none";
+
+puntos=0;
+vidas=3;
+racha=0;
+tiempo=90;
+encontradas=[];
+seleccion=[];
+jugando=true;
+
+document.getElementById("puntos").textContent=0;
+document.getElementById("vidas").textContent=3;
+document.getElementById("racha").textContent=0;
+document.getElementById("tiempo").textContent=90;
+
+crearTablero();
+rellenar();
+dibujar();
+crearLista();
+iniciarTiempo();
+
+}
+
+reiniciar();
 
 </script>
 
 </body>
-</html>
 </html>
