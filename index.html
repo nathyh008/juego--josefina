@@ -1,143 +1,318 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
-<title>Sopa de Letras — Josefina Leanza</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Desafío - Sopa de Letras</title>
+
 <style>
-*{box-sizing:border-box}
-body{margin:0;font-family:Arial,Helvetica,sans-serif;background:linear-gradient(135deg,#f5f1ff,#eefaff);color:#283044}
-.container{max-width:900px;margin:auto;padding:20px}
-.card{background:#fff;border-radius:24px;box-shadow:0 10px 30px rgba(50,50,80,.12);padding:24px}
-h1{text-align:center;margin:0 0 5px;color:#5a4b9b;font-size:clamp(24px,5vw,38px)}
-.subtitle{text-align:center;margin:0 0 20px;color:#697386}
-.fields{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:18px}
-label{font-weight:700;font-size:14px;color:#596174}
-input{width:100%;padding:12px;border:2px solid #e1e5ef;border-radius:12px;font-size:16px;outline:none}
-input:focus{border-color:#9b8bd4}
-.game{display:grid;grid-template-columns:minmax(0,1fr) 250px;gap:22px;align-items:start}
-.grid{display:grid;grid-template-columns:repeat(16,1fr);gap:3px;touch-action:none;user-select:none;-webkit-user-select:none}
-.cell{aspect-ratio:1;background:#f3f5fa;border-radius:5px;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:clamp(11px,2.5vw,20px);cursor:pointer;transition:.12s}
-.cell.selected{background:#c9bbff;color:#392b73}
-.cell.found{background:#8ed9b0;color:#164d32}
-.words{background:#faf9ff;border-radius:18px;padding:15px}
-.words h2{font-size:18px;margin:0 0 10px;color:#5a4b9b}
-.words ul{list-style:none;padding:0;margin:0;columns:1}
-.words li{padding:6px 8px;margin:2px 0;border-radius:8px;font-weight:700}
-.words li.done{text-decoration:line-through;background:#dff6e8;color:#2d7850}
-.message{margin-top:18px;text-align:center;font-size:20px;font-weight:800;min-height:28px;color:#4d3c91}
-button{display:block;margin:16px auto 0;border:0;border-radius:14px;padding:12px 20px;background:#6654ad;color:white;font-size:16px;font-weight:700;cursor:pointer}
-.note{text-align:center;color:#7a8292;font-size:13px;margin-top:14px}
-@media(max-width:700px){.container{padding:10px}.card{padding:16px;border-radius:18px}.game{grid-template-columns:1fr}.words ul{columns:2}.fields{grid-template-columns:1fr 1fr}}
-@media(max-width:420px){.fields{grid-template-columns:1fr}.words ul{columns:2}}
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: linear-gradient(135deg, #dff6ff, #fff3d6);
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 15px;
+}
+
+.contenedor {
+  width: 100%;
+  max-width: 650px;
+  background: white;
+  border-radius: 25px;
+  padding: 25px;
+  box-shadow: 0 8px 25px rgba(0,0,0,.15);
+  text-align: center;
+}
+
+h1 {
+  margin: 5px 0;
+  color: #4056a1;
+  font-size: 30px;
+}
+
+.subtitulo {
+  color: #555;
+  margin-bottom: 15px;
+}
+
+.contador {
+  font-size: 20px;
+  font-weight: bold;
+  color: #e76f51;
+  margin-bottom: 15px;
+}
+
+#sopa {
+  display: grid;
+  grid-template-columns: repeat(10, 1fr);
+  gap: 3px;
+  max-width: 500px;
+  margin: auto;
+  user-select: none;
+}
+
+.letra {
+  aspect-ratio: 1;
+  background: #f1f5ff;
+  border: 1px solid #ccd5ee;
+  border-radius: 6px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: clamp(14px, 4vw, 23px);
+  font-weight: bold;
+  cursor: pointer;
+  transition: .15s;
+}
+
+.letra.seleccionada {
+  background: #ffd166;
+  color: #333;
+}
+
+.letra.encontrada {
+  background: #70c1b3;
+  color: white;
+}
+
+.palabras {
+  margin-top: 20px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+}
+
+.palabra {
+  background: #f1f1f1;
+  padding: 7px 12px;
+  border-radius: 15px;
+  font-weight: bold;
+  font-size: 14px;
+}
+
+.palabra.encontrada {
+  background: #70c1b3;
+  color: white;
+  text-decoration: line-through;
+}
+
+#mensaje {
+  display: none;
+  margin-top: 20px;
+  padding: 18px;
+  border-radius: 15px;
+  background: #fff3cd;
+  color: #765900;
+  font-size: 22px;
+  font-weight: bold;
+}
+
+button {
+  margin-top: 15px;
+  padding: 12px 22px;
+  border: none;
+  border-radius: 20px;
+  background: #4056a1;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.instruccion {
+  font-size: 15px;
+  color: #666;
+}
 </style>
 </head>
+
 <body>
-<div class="container">
-<div class="card">
-<h1>🔎 Sopa de Letras: Valores</h1>
-<p class="subtitle">Una actividad creada por <b>Josefina Leanza</b> · Colegio de la Ciudad</p>
 
-<div class="fields">
-  <div><label>Curso</label><input placeholder="Escribí el curso"></div>
-  <div><label>Materia</label><input placeholder="Escribí la materia"></div>
+<div class="contenedor">
+
+<h1>🔎 DESAFÍO: SOPA DE LETRAS</h1>
+
+<p class="subtitulo">
+¡Encontrá las 10 palabras escondidas!
+</p>
+
+<p class="instruccion">
+Tocá las letras que forman una palabra.
+</p>
+
+<div class="contador">
+Encontradas: <span id="cantidad">0</span> / 10
 </div>
 
-<div class="game">
-  <div>
-    <div id="grid" class="grid"></div>
-    <div id="message" class="message"></div>
-    <button id="reset">🔄 Volver a empezar</button>
-  </div>
-  <div class="words">
-    <h2>Encontrá estas 15 palabras:</h2>
-    <ul id="wordList"><li data-word="RESPETO">RESPETO</li><li data-word="EMPATIA">EMPATIA</li><li data-word="SOLIDARIDAD">SOLIDARIDAD</li><li data-word="HONESTIDAD">HONESTIDAD</li><li data-word="RESPONSABILIDAD">RESPONSABILIDAD</li><li data-word="TOLERANCIA">TOLERANCIA</li><li data-word="AMISTAD">AMISTAD</li><li data-word="GENEROSIDAD">GENEROSIDAD</li><li data-word="PACIENCIA">PACIENCIA</li><li data-word="COMPROMISO">COMPROMISO</li><li data-word="JUSTICIA">JUSTICIA</li><li data-word="HUMILDAD">HUMILDAD</li><li data-word="CONFIANZA">CONFIANZA</li><li data-word="GRATITUD">GRATITUD</li><li data-word="COOPERACION">COOPERACION</li></ul>
-  </div>
+<div id="sopa"></div>
+
+<div class="palabras" id="palabras"></div>
+
+<div id="mensaje">
+🎉 ¡FELICITACIONES! 🎉<br>
+Encontraste todas las palabras.
 </div>
-<p class="note">Podés buscar las palabras en horizontal, vertical y diagonal. En el celular, mantené presionado y arrastrá sobre las letras.</p>
-</div>
+
+<button onclick="location.reload()">🔄 Jugar nuevamente</button>
+
 </div>
 
 <script>
-const gridData = [["L", "S", "S", "O", "L", "I", "D", "A", "R", "I", "D", "A", "D", "P", "Q", "D"], ["E", "H", "U", "P", "A", "C", "I", "E", "N", "C", "I", "A", "L", "S", "K", "X"], ["P", "Z", "B", "L", "I", "G", "R", "A", "T", "I", "T", "U", "D", "H", "Z", "Z"], ["O", "S", "I", "M", "O", "R", "P", "M", "O", "C", "L", "R", "M", "E", "K", "K"], ["A", "Z", "N", "A", "I", "F", "N", "O", "C", "Y", "Y", "O", "M", "P", "F", "L"], ["Y", "V", "G", "J", "W", "I", "A", "I", "C", "N", "A", "R", "E", "L", "O", "T"], ["R", "E", "S", "P", "O", "N", "S", "A", "B", "I", "L", "I", "D", "A", "D", "A"], ["E", "G", "P", "Ñ", "G", "O", "H", "O", "N", "E", "S", "T", "I", "D", "A", "D"], ["J", "U", "L", "Q", "I", "Ñ", "C", "A", "M", "I", "S", "T", "A", "D", "I", "Q"], ["H", "V", "N", "Z", "M", "T", "O", "Z", "H", "N", "U", "B", "F", "Y", "Q", "R"], ["H", "R", "C", "G", "J", "U", "S", "T", "I", "C", "I", "A", "D", "U", "C", "X"], ["R", "L", "W", "I", "R", "C", "O", "O", "P", "E", "R", "A", "C", "I", "O", "N"], ["J", "Q", "C", "D", "A", "D", "I", "S", "O", "R", "E", "N", "E", "G", "Q", "L"], ["S", "O", "T", "E", "P", "S", "E", "R", "K", "A", "B", "I", "V", "I", "Y", "N"], ["A", "V", "H", "K", "I", "Y", "A", "G", "D", "A", "D", "L", "I", "M", "U", "H"], ["O", "O", "F", "A", "I", "T", "A", "P", "M", "E", "L", "N", "Z", "O", "Q", "A"]];
-const placements = [{"word": "RESPONSABILIDAD", "start": [6, 0], "end": [6, 14]}, {"word": "SOLIDARIDAD", "start": [0, 2], "end": [0, 12]}, {"word": "GENEROSIDAD", "start": [12, 13], "end": [12, 3]}, {"word": "COOPERACION", "start": [11, 5], "end": [11, 15]}, {"word": "HONESTIDAD", "start": [7, 6], "end": [7, 15]}, {"word": "TOLERANCIA", "start": [5, 15], "end": [5, 6]}, {"word": "COMPROMISO", "start": [3, 9], "end": [3, 0]}, {"word": "PACIENCIA", "start": [1, 3], "end": [1, 11]}, {"word": "CONFIANZA", "start": [4, 8], "end": [4, 0]}, {"word": "JUSTICIA", "start": [10, 4], "end": [10, 11]}, {"word": "HUMILDAD", "start": [14, 15], "end": [14, 8]}, {"word": "GRATITUD", "start": [2, 5], "end": [2, 12]}, {"word": "RESPETO", "start": [13, 7], "end": [13, 1]}, {"word": "EMPATIA", "start": [15, 9], "end": [15, 3]}, {"word": "AMISTAD", "start": [8, 7], "end": [8, 13]}];
-const wordSet = new Map(placements.map(p => [p.word, p]));
-const gridEl = document.getElementById('grid');
-const msg = document.getElementById('message');
-const listItems = [...document.querySelectorAll('#wordList li')];
-let dragging = false, start = null, current = null;
-let found = new Set();
 
-gridData.forEach((row,r) => row.forEach((letter,c) => {
-  const el = document.createElement('div');
-  el.className='cell';
-  el.textContent=letter;
-  el.dataset.r=r; el.dataset.c=c;
-  gridEl.appendChild(el);
-}));
+const palabras = [
+"PLANETA",
+"ESCUELA",
+"AMISTAD",
+"CIENCIA",
+"LIBRO",
+"NATURALEZA",
+"MUSICA",
+"ANIMAL",
+"FAMILIA",
+"JUEGO"
+];
 
-function cellAt(r,c) {
-  return document.querySelector(`.cell[data-r="${r}"][data-c="${c}"]`);
+const filas = [
+"PLANETAQWE",
+"RTYESCUELA",
+"AMISTADZXCV",
+"QCIENCIAASD",
+"LIBROFGHJK",
+"NATURALEZA",
+"MUSICAZXCVB",
+"ANIMALQWERT",
+"FAMILIAASDF",
+"JUEGOPLKJH"
+];
+
+let seleccion = [];
+let encontradas = [];
+
+const sopa = document.getElementById("sopa");
+const lista = document.getElementById("palabras");
+const cantidad = document.getElementById("cantidad");
+const mensaje = document.getElementById("mensaje");
+
+palabras.forEach(p => {
+  const div = document.createElement("div");
+  div.className = "palabra";
+  div.id = "palabra-" + p;
+  div.textContent = p;
+  lista.appendChild(div);
+});
+
+let tablero = [];
+
+filas.forEach((fila, i) => {
+  tablero[i] = fila.split("");
+});
+
+for(let f=0; f<10; f++){
+  for(let c=0; c<10; c++){
+
+    const letra = document.createElement("div");
+
+    letra.className = "letra";
+    letra.textContent = tablero[f][c];
+
+    letra.dataset.fila = f;
+    letra.dataset.columna = c;
+
+    letra.addEventListener("click", () => seleccionar(letra));
+
+    sopa.appendChild(letra);
+  }
 }
-function cellsBetween(a,b) {
-  const dr=b.r-a.r, dc=b.c-a.c;
-  const sr = dr===0?0:(dr>0?1:-1);
-  const sc = dc===0?0:(dc>0?1:-1);
-  if (!(dr===0 || dc===0 || Math.abs(dr)===Math.abs(dc))) return [];
-  const len=Math.max(Math.abs(dr),Math.abs(dc))+1;
-  return Array.from({length:len},(_,i)=>({r:a.r+sr*i,c:a.c+sc*i}));
+
+function seleccionar(letra){
+
+  if(letra.classList.contains("encontrada")) return;
+
+  letra.classList.toggle("seleccionada");
+
+  const f = letra.dataset.fila;
+  const c = letra.dataset.columna;
+
+  const indice = seleccion.findIndex(x => x.f == f && x.c == c);
+
+  if(indice >= 0){
+    seleccion.splice(indice,1);
+  }else{
+    seleccion.push({f,c});
+  }
+
+  comprobar();
 }
-function clearPreview() {
-  document.querySelectorAll('.cell.selected').forEach(x=>x.classList.remove('selected'));
-}
-function preview() {
-  clearPreview();
-  if(!start || !current) return;
-  cellsBetween(start,current).forEach(p=>cellAt(p.r,p.c)?.classList.add('selected'));
-}
-function checkSelection() {
-  if(!start || !current) return;
-  const path=cellsBetween(start,current);
-  if(!path.length) return;
-  const s=path.map(p=>gridData[p.r][p.c]).join('');
-  const rev=s.split('').reverse().join('');
-  let match=null;
-  for(const p of placements) if(!found.has(p.word) && (p.word===s || p.word===rev)) match=p;
-  if(match) {
-    found.add(match.word);
-    path.forEach(p=>cellAt(p.r,p.c)?.classList.add('found'));
-    const li=document.querySelector(`li[data-word="${match.word}"]`);
-    if(li) li.classList.add('done');
-    if(found.size===placements.length) {
-      msg.textContent='🎉 ¡Felicitaciones! Encontraste todas las palabras.';
-    } else {
-      msg.textContent=`¡Muy bien! Encontraste ${match.word}.`;
+
+function comprobar(){
+
+  let texto = "";
+
+  seleccion.forEach(x => {
+    texto += tablero[x.f][x.c];
+  });
+
+  let textoInverso = texto.split("").reverse().join("");
+
+  let palabraEncontrada = null;
+
+  for(const palabra of palabras){
+
+    if(!encontradas.includes(palabra)){
+
+      if(texto === palabra || textoInverso === palabra){
+
+        palabraEncontrada = palabra;
+        break;
+      }
     }
   }
-  clearPreview();
-}
-function getCell(e) {
-  const target=e.target.closest('.cell');
-  if(!target) return null;
-  return {r:+target.dataset.r,c:+target.dataset.c};
-}
-gridEl.addEventListener('pointerdown', e=>{
-  const p=getCell(e); if(!p)return;
-  dragging=true; start=current=p; gridEl.setPointerCapture?.(e.pointerId); preview(); e.preventDefault();
-});
-gridEl.addEventListener('pointermove', e=>{
-  if(!dragging)return;
-  const p=getCell(e); if(p){current=p; preview();}
-});
-gridEl.addEventListener('pointerup', e=>{if(!dragging)return; dragging=false; checkSelection();});
-gridEl.addEventListener('pointercancel', ()=>{dragging=false;clearPreview();});
 
-document.getElementById('reset').onclick=()=>{
-  found.clear(); clearPreview();
-  document.querySelectorAll('.cell.found').forEach(x=>x.classList.remove('found'));
-  listItems.forEach(x=>x.classList.remove('done'));
-  msg.textContent='';
-};
+  if(palabraEncontrada){
+
+    encontradas.push(palabraEncontrada);
+
+    seleccion.forEach(x => {
+
+      const celda = document.querySelector(
+        `.letra[data-fila="${x.f}"][data-columna="${x.c}"]`
+      );
+
+      celda.classList.remove("seleccionada");
+      celda.classList.add("encontrada");
+
+    });
+
+    document
+      .getElementById("palabra-" + palabraEncontrada)
+      .classList.add("encontrada");
+
+    seleccion = [];
+
+    cantidad.textContent = encontradas.length;
+
+    if(encontradas.length === palabras.length){
+
+      mensaje.style.display = "block";
+
+      setTimeout(() => {
+        mensaje.scrollIntoView({behavior:"smooth"});
+      },200);
+    }
+
+  }
+
+}
+
 </script>
+
 </body>
+</html>
 </html>
