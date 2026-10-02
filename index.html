@@ -337,152 +337,183 @@ button{
    TABLERO
 ===================================================== */
 
-const SIZE = 12;
+const TAMANO = 12;
 
-const levels = [
+const niveles = [
+
+/* =====================================================
+   NIVEL 1
+===================================================== */
 
 {
- title:"🔎 NIVEL 1 — CALENTAMIENTO",
- words:[
+ titulo:"🔎 NIVEL 1 — CALENTAMIENTO",
+
+ palabras:[
   ["PLANETA",0,0,0,6],
   ["ESCUELA",2,1,2,7],
   ["AMISTAD",5,0,5,6],
   ["CIENCIA",8,1,8,7]
  ],
- clues:[]
+
+ pistas:[]
 },
 
+
 /* =====================================================
-   NIVEL 2 — CORREGIDO
-   Todas las palabras fueron comprobadas.
-   Los cruces solamente comparten letras iguales.
+   NIVEL 2
 ===================================================== */
 
 {
- title:"🔥 NIVEL 2 — MÁS DIFÍCIL",
- words:[
-  ["NATURALEZA",0,0,0,9],
-  ["AVENTURA",0,1,7,1],
-  ["ANIMALES",0,1,7,8],
-  ["LECTURA",1,0,1,6],
-  ["PLANETA",1,7,7,1],
-  ["CIENCIA",4,7,10,7]
+ titulo:"🔥 NIVEL 2 — MÁS DIFÍCIL",
+
+ palabras:[
+  ["NATURALEZA",8,9,8,0],
+  ["AVENTURA",8,0,1,7],
+  ["ANIMALES",9,9,2,9],
+  ["LECTURA",5,7,11,7],
+  ["PLANETA",5,6,5,0],
+  ["CIENCIA",4,10,10,10]
  ],
- clues:[]
+
+ pistas:[]
 },
 
+
 /* =====================================================
-   NIVEL 3 — CORREGIDO
-   Las 10 palabras están comprobadas.
-   Los cruces solamente comparten letras iguales.
+   NIVEL 3
 ===================================================== */
 
 {
- title:"😈 NIVEL 3 — DESAFÍO FINAL",
- words:[
-  ["MISTERIO",0,0,0,7],
-  ["AVENTURA",0,8,7,8],
-  ["FAMILIA",1,2,7,2],
-  ["DESAFIO",1,7,7,7],
-  ["PLANETA",4,6,10,6],
-  ["MUSICA",0,0,5,0],
-  ["FUTURO",1,2,6,2],
-  ["AMIGOS",2,3,7,3],
-  ["EQUIPO",1,5,6,5],
-  ["JUEGO",2,6,6,2]
+ titulo:"😈 NIVEL 3 — DESAFÍO FINAL",
+
+ palabras:[
+  ["MISTERIO",9,8,9,1],
+  ["AVENTURA",6,2,6,9],
+  ["FAMILIA",2,10,2,4],
+  ["DESAFIO",1,1,7,1],
+  ["PLANETA",7,11,7,5],
+  ["MUSICA",6,0,11,0],
+  ["FUTURO",3,8,3,3],
+  ["AMIGOS",5,3,5,8],
+  ["EQUIPO",5,2,0,2],
+  ["JUEGO",11,6,7,2]
  ],
- clues:[]
+
+ pistas:[]
 }
 
 ];
 
 
-/* Letras de relleno */
+/* =====================================================
+   LETRAS PARA COMPLETAR EL TABLERO
+===================================================== */
 
-const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+const letras = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
 
-/* Variables */
+/* =====================================================
+   VARIABLES DEL JUEGO
+===================================================== */
 
-let board = [];
-let currentLevel = 0;
-let found = [];
-let firstCell = null;
-let points = 0;
-let lives = 3;
-let time = 120;
-let playing = true;
-let timer;
+let tablero = [];
+let nivelActual = 0;
+let palabrasEncontradas = [];
+let primeraCelda = null;
+let puntos = 0;
+let vidas = 3;
+let tiempo = 120;
+let jugando = true;
+let temporizador;
 
 
 /* =====================================================
    CREAR TABLERO
 ===================================================== */
 
-function createBoard(){
+function crearTablero(){
 
- board = Array.from(
-  {length:SIZE},
-  ()=>Array(SIZE).fill("")
+ tablero = Array.from(
+  {length:TAMANO},
+  ()=>Array(TAMANO).fill("")
  );
 
- const data = levels[currentLevel].words;
+ const datos = niveles[nivelActual].palabras;
 
- data.forEach(item => {
 
-  const word = item[0];
-  const r1 = item[1];
-  const c1 = item[2];
-  const r2 = item[3];
-  const c2 = item[4];
+ datos.forEach(elemento => {
 
-  const dr = Math.sign(r2-r1);
-  const dc = Math.sign(c2-c1);
+  const palabra = elemento[0];
 
-  for(let i=0;i<word.length;i++){
+  const filaInicial = elemento[1];
+  const columnaInicial = elemento[2];
 
-   const r = r1 + dr*i;
-   const c = c1 + dc*i;
+  const filaFinal = elemento[3];
+  const columnaFinal = elemento[4];
+
+
+  const direccionFila =
+   Math.sign(filaFinal-filaInicial);
+
+  const direccionColumna =
+   Math.sign(columnaFinal-columnaInicial);
+
+
+  for(let i=0;i<palabra.length;i++){
+
+   const fila =
+    filaInicial + direccionFila*i;
+
+   const columna =
+    columnaInicial + direccionColumna*i;
+
 
    /*
-      Seguridad:
-      si una palabra cruza otra,
-      la letra tiene que coincidir.
+      CONTROL DE CRUCES
    */
 
-   if(board[r][c] && board[r][c] !== word[i]){
+   if(
+    tablero[fila][columna] &&
+    tablero[fila][columna] !== palabra[i]
+   ){
+
     console.error(
      "ERROR DE CRUCE:",
-     word,
+     palabra,
      "posición",
-     r,
-     c,
+     fila,
+     columna,
      "esperaba",
-     word[i],
+     palabra[i],
      "pero ya existe",
-     board[r][c]
+     tablero[fila][columna]
     );
+
    }
 
-   board[r][c] = word[i];
+
+   tablero[fila][columna] =
+    palabra[i];
 
   }
 
  });
 
 
- /* Completar espacios vacíos */
+ /* =================================================
+    COMPLETAR ESPACIOS VACÍOS
+ ================================================= */
 
- for(let r=0;r<SIZE;r++){
+ for(let fila=0;fila<TAMANO;fila++){
 
-  for(let c=0;c<SIZE;c++){
+  for(let columna=0;columna<TAMANO;columna++){
 
-   if(!board[r][c]){
+   if(!tablero[fila][columna]){
 
-    board[r][c] =
-     letters[
+    tablero[fila][columna] =
+     letras[
       Math.floor(
-       Math.random()*letters.length
+       Math.random()*letras.length
       )
      ];
 
@@ -499,28 +530,38 @@ function createBoard(){
    DIBUJAR TABLERO
 ===================================================== */
 
-function draw(){
+function dibujarTablero(){
 
- const grid = document.getElementById("grid");
+ const cuadricula =
+  document.getElementById("grid");
 
- grid.innerHTML = "";
+ cuadricula.innerHTML = "";
 
- for(let r=0;r<SIZE;r++){
 
-  for(let c=0;c<SIZE;c++){
+ for(let fila=0;fila<TAMANO;fila++){
 
-   const cell = document.createElement("div");
+  for(let columna=0;columna<TAMANO;columna++){
 
-   cell.className = "cell";
+   const celda =
+    document.createElement("div");
 
-   cell.textContent = board[r][c];
 
-   cell.dataset.r = r;
-   cell.dataset.c = c;
+   celda.className = "cell";
 
-   cell.onclick = () => selectCell(cell);
 
-   grid.appendChild(cell);
+   celda.textContent =
+    tablero[fila][columna];
+
+
+   celda.dataset.fila = fila;
+   celda.dataset.columna = columna;
+
+
+   celda.onclick = () =>
+    seleccionarCelda(celda);
+
+
+   cuadricula.appendChild(celda);
 
   }
 
@@ -533,177 +574,229 @@ function draw(){
    LISTA DE PALABRAS
 ===================================================== */
 
-function drawWords(){
+function dibujarPalabras(){
 
- const container =
+ const contenedor =
   document.getElementById("words");
 
- container.innerHTML = "";
+ contenedor.innerHTML = "";
 
- levels[currentLevel].words.forEach(item => {
 
-  const div = document.createElement("div");
+ niveles[nivelActual].palabras.forEach(
+  elemento => {
 
-  div.className = "word";
+   const palabra =
+    document.createElement("div");
 
-  div.id = "word-" + item[0];
 
-  div.textContent = item[0];
+   palabra.className = "word";
 
-  container.appendChild(div);
 
- });
+   palabra.id =
+    "word-" + elemento[0];
+
+
+   palabra.textContent =
+    elemento[0];
+
+
+   contenedor.appendChild(palabra);
+
+  }
+ );
 
 }
 
 
 /* =====================================================
-   SELECCIÓN DE CELDAS
+   SELECCIONAR CELDA
 ===================================================== */
 
-function selectCell(cell){
+function seleccionarCelda(celda){
 
- if(!playing) return;
-
-
- const r = Number(cell.dataset.r);
- const c = Number(cell.dataset.c);
+ if(!jugando) return;
 
 
- /* Primera letra */
+ const fila =
+  Number(celda.dataset.fila);
 
- if(!firstCell){
+ const columna =
+  Number(celda.dataset.columna);
 
-  firstCell = {r,c};
 
-  cell.classList.add("selected");
+ /* =================================================
+    PRIMERA LETRA
+ ================================================= */
+
+ if(!primeraCelda){
+
+  primeraCelda = {
+   fila:fila,
+   columna:columna
+  };
+
+
+  celda.classList.add("selected");
 
   return;
 
  }
 
 
- /* Segunda letra */
+ /* =================================================
+    SEGUNDA LETRA
+ ================================================= */
 
- const second = {r,c};
-
- const word = getWord(
-  firstCell,
-  second
- );
-
- clearSelection();
+ const segundaCelda = {
+  fila:fila,
+  columna:columna
+ };
 
 
- /* No forma ninguna palabra */
+ const palabra =
+  obtenerPalabra(
+   primeraCelda,
+   segundaCelda
+  );
 
- if(!word){
 
-  lives--;
+ limpiarSeleccion();
+
+
+ /* =================================================
+    NO FORMA UNA PALABRA
+ ================================================= */
+
+ if(!palabra){
+
+  vidas--;
+
 
   document.getElementById("lives")
-   .textContent = lives;
+   .textContent = vidas;
 
-  showMessage(
+
+  mostrarMensaje(
    "❌ Esa combinación no forma una palabra."
   );
 
-  if(lives <= 0){
 
-   finish(false);
+  if(vidas <= 0){
+
+   finalizar(false);
 
   }
 
-  firstCell = null;
+
+  primeraCelda = null;
 
   return;
 
  }
 
 
- /* Palabra ya encontrada */
+ /* =================================================
+    PALABRA YA ENCONTRADA
+ ================================================= */
 
- if(found.includes(word)){
+ if(
+  palabrasEncontradas.includes(palabra)
+ ){
 
-  showMessage(
+  mostrarMensaje(
    "👀 Esa palabra ya estaba encontrada."
   );
 
-  firstCell = null;
+
+  primeraCelda = null;
 
   return;
 
  }
 
 
- /* Palabra encontrada */
+ /* =================================================
+    PALABRA ENCONTRADA
+ ================================================= */
 
- found.push(word);
+ palabrasEncontradas.push(palabra);
 
- markWord(
-  firstCell,
-  second
+
+ marcarPalabra(
+  primeraCelda,
+  segundaCelda
  );
 
 
  document
-  .getElementById("word-"+word)
+  .getElementById("word-"+palabra)
   .classList.add("found");
 
 
- points += 150;
+ puntos += 150;
+
 
  document.getElementById("points")
-  .textContent = points;
+  .textContent = puntos;
 
 
- showMessage(
-  "🎉 ¡Encontraste "+word+"!"
+ mostrarMensaje(
+  "🎉 ¡Encontraste "+palabra+"!"
  );
 
 
- firstCell = null;
+ primeraCelda = null;
 
 
  /* =================================================
-    PASAR DE NIVEL
+    PASAR AL SIGUIENTE NIVEL
  ================================================= */
 
- if(found.length === levels[currentLevel].words.length){
+ if(
+  palabrasEncontradas.length ===
+  niveles[nivelActual].palabras.length
+ ){
 
-  if(currentLevel < levels.length-1){
+  if(nivelActual < niveles.length-1){
 
    setTimeout(() => {
 
-    currentLevel++;
+    nivelActual++;
 
-    found = [];
+    palabrasEncontradas = [];
 
-    firstCell = null;
+    primeraCelda = null;
+
 
     document.getElementById("level")
-     .textContent = currentLevel+1;
+     .textContent =
+      nivelActual+1;
+
 
     document.getElementById("levelTitle")
      .textContent =
-      levels[currentLevel].title;
+      niveles[nivelActual].titulo;
 
-    createBoard();
 
-    draw();
+    crearTablero();
 
-    drawWords();
+    dibujarTablero();
 
-    showMessage(
+    dibujarPalabras();
+
+
+    mostrarMensaje(
      "🚀 ¡NIVEL SUPERADO! Ahora viene uno más difícil."
     );
 
+
    },800);
+
 
   }else{
 
    setTimeout(
-    ()=>finish(true),
+    ()=>finalizar(true),
     800
    );
 
@@ -718,18 +811,25 @@ function selectCell(cell){
    OBTENER PALABRA ENTRE DOS PUNTOS
 ===================================================== */
 
-function getWord(a,b){
+function obtenerPalabra(a,b){
 
- const dr = b.r-a.r;
- const dc = b.c-a.c;
+ const diferenciaFila =
+  b.fila-a.fila;
 
 
- /* Solo horizontal, vertical o diagonal */
+ const diferenciaColumna =
+  b.columna-a.columna;
+
+
+ /* =================================================
+    HORIZONTAL, VERTICAL O DIAGONAL
+ ================================================= */
 
  if(
-  dr !== 0 &&
-  dc !== 0 &&
-  Math.abs(dr) !== Math.abs(dc)
+  diferenciaFila !== 0 &&
+  diferenciaColumna !== 0 &&
+  Math.abs(diferenciaFila) !==
+   Math.abs(diferenciaColumna)
  ){
 
   return null;
@@ -737,51 +837,69 @@ function getWord(a,b){
  }
 
 
- const steps = Math.max(
-  Math.abs(dr),
-  Math.abs(dc)
- );
+ const pasos =
+  Math.max(
+   Math.abs(diferenciaFila),
+   Math.abs(diferenciaColumna)
+  );
 
 
- if(steps < 1){
+ if(pasos < 1){
 
   return null;
 
  }
 
 
- const sr =
-  dr === 0 ? 0 : dr/steps;
-
- const sc =
-  dc === 0 ? 0 : dc/steps;
-
-
- let text = "";
+ const direccionFila =
+  diferenciaFila === 0
+   ? 0
+   : diferenciaFila/pasos;
 
 
- for(let i=0;i<=steps;i++){
+ const direccionColumna =
+  diferenciaColumna === 0
+   ? 0
+   : diferenciaColumna/pasos;
 
-  const r = a.r + sr*i;
-  const c = a.c + sc*i;
 
-  text += board[r][c];
+ let texto = "";
+
+
+ for(let i=0;i<=pasos;i++){
+
+  const fila =
+   a.fila + direccionFila*i;
+
+
+  const columna =
+   a.columna + direccionColumna*i;
+
+
+  texto +=
+   tablero[fila][columna];
 
  }
 
 
- /* Comprobar todas las palabras */
+ /* =================================================
+    COMPROBAR LAS PALABRAS
+ ================================================= */
 
- for(const item of levels[currentLevel].words){
+ for(
+  const elemento
+  of niveles[nivelActual].palabras
+ ){
 
-  const target = item[0];
+  const palabraObjetivo =
+   elemento[0];
 
 
   /* Dirección normal */
 
-  if(text === target){
+  if(texto === palabraObjetivo){
 
-   return target;
+   return palabraObjetivo;
 
   }
 
@@ -789,13 +907,13 @@ function getWord(a,b){
   /* Dirección inversa */
 
   if(
-   text
+   texto
     .split("")
     .reverse()
-    .join("") === target
+    .join("") === palabraObjetivo
   ){
 
-   return target;
+   return palabraObjetivo;
 
   }
 
@@ -811,37 +929,54 @@ function getWord(a,b){
    MARCAR PALABRA ENCONTRADA
 ===================================================== */
 
-function markWord(a,b){
+function marcarPalabra(a,b){
 
- const dr = b.r-a.r;
- const dc = b.c-a.c;
-
- const steps = Math.max(
-  Math.abs(dr),
-  Math.abs(dc)
- );
-
- const sr =
-  dr === 0 ? 0 : dr/steps;
-
- const sc =
-  dc === 0 ? 0 : dc/steps;
+ const diferenciaFila =
+  b.fila-a.fila;
 
 
- for(let i=0;i<=steps;i++){
-
-  const r = a.r + sr*i;
-  const c = a.c + sc*i;
+ const diferenciaColumna =
+  b.columna-a.columna;
 
 
-  const cell = document.querySelector(
-   `.cell[data-r="${r}"][data-c="${c}"]`
+ const pasos =
+  Math.max(
+   Math.abs(diferenciaFila),
+   Math.abs(diferenciaColumna)
   );
 
 
-  if(cell){
+ const direccionFila =
+  diferenciaFila === 0
+   ? 0
+   : diferenciaFila/pasos;
 
-   cell.classList.add("found");
+
+ const direccionColumna =
+  diferenciaColumna === 0
+   ? 0
+   : diferenciaColumna/pasos;
+
+
+ for(let i=0;i<=pasos;i++){
+
+  const fila =
+   a.fila + direccionFila*i;
+
+
+  const columna =
+   a.columna + direccionColumna*i;
+
+
+  const celda =
+   document.querySelector(
+    `.cell[data-fila="${fila}"][data-columna="${columna}"]`
+   );
+
+
+  if(celda){
+
+   celda.classList.add("found");
 
   }
 
@@ -854,34 +989,37 @@ function markWord(a,b){
    LIMPIAR SELECCIÓN
 ===================================================== */
 
-function clearSelection(){
+function limpiarSeleccion(){
 
  document
   .querySelectorAll(".cell.selected")
   .forEach(
-   c => c.classList.remove("selected")
+   celda =>
+    celda.classList.remove("selected")
   );
 
 }
 
 
 /* =====================================================
-   MENSAJES
+   MOSTRAR MENSAJES
 ===================================================== */
 
-function showMessage(text){
+function mostrarMensaje(texto){
 
- const box =
+ const caja =
   document.getElementById("message");
 
- box.innerHTML = text;
 
- box.style.display = "block";
+ caja.innerHTML = texto;
+
+
+ caja.style.display = "block";
 
 
  setTimeout(() => {
 
-  box.style.display = "none";
+  caja.style.display = "none";
 
  },1500);
 
@@ -892,23 +1030,26 @@ function showMessage(text){
    CRONÓMETRO
 ===================================================== */
 
-function startTimer(){
+function iniciarTemporizador(){
 
- clearInterval(timer);
+ clearInterval(temporizador);
 
- timer = setInterval(() => {
 
-  if(!playing) return;
+ temporizador = setInterval(() => {
 
-  time--;
+  if(!jugando) return;
+
+
+  tiempo--;
+
 
   document.getElementById("time")
-   .textContent = time;
+   .textContent = tiempo;
 
 
-  if(time <= 0){
+  if(tiempo <= 0){
 
-   finish(false);
+   finalizar(false);
 
   }
 
@@ -918,23 +1059,29 @@ function startTimer(){
 
 
 /* =====================================================
-   FINAL
+   FINAL DEL JUEGO
 ===================================================== */
 
-function finish(win){
+function finalizar(gano){
 
- playing = false;
-
- clearInterval(timer);
+ jugando = false;
 
 
- const modal =
+ clearInterval(temporizador);
+
+
+ const ventanaFinal =
   document.getElementById("final");
 
- modal.style.display = "flex";
+
+ ventanaFinal.style.display = "flex";
 
 
- if(win){
+ /* =================================================
+    GANÓ
+ ================================================= */
+
+ if(gano){
 
   document.getElementById("finalEmoji")
    .textContent = "🏆";
@@ -949,10 +1096,10 @@ function finish(win){
    .innerHTML =
     "🎉 ¡Superaste los 3 niveles!<br><br>"+
     "⭐ Puntaje final: <b>"+
-    points+
+    puntos+
     "</b><br>"+
     "⏱️ Tiempo restante: <b>"+
-    time+
+    tiempo+
     " segundos</b>";
 
 
@@ -964,6 +1111,10 @@ function finish(win){
 
  }else{
 
+
+  /* =================================================
+     PERDIÓ
+ ================================================= */
 
   document.getElementById("finalEmoji")
    .textContent = "😅";
@@ -977,10 +1128,10 @@ function finish(win){
   document.getElementById("finalScore")
    .innerHTML =
     "Llegaste hasta el <b>Nivel "+
-    (currentLevel+1)+
+    (nivelActual+1)+
     "</b>.<br><br>"+
     "⭐ Puntaje: <b>"+
-    points+
+    puntos+
     "</b>";
 
 
@@ -994,36 +1145,40 @@ function finish(win){
 
 
 /* =====================================================
-   REINICIAR
+   REINICIAR JUEGO
 ===================================================== */
 
-function restart(){
+function reiniciar(){
 
- clearInterval(timer);
+ clearInterval(temporizador);
 
- currentLevel = 0;
 
- found = [];
+ nivelActual = 0;
 
- firstCell = null;
+ palabrasEncontradas = [];
 
- points = 0;
+ primeraCelda = null;
 
- lives = 3;
+ puntos = 0;
 
- time = 120;
+ vidas = 3;
 
- playing = true;
+ tiempo = 120;
+
+ jugando = true;
 
 
  document.getElementById("points")
   .textContent = 0;
 
+
  document.getElementById("lives")
   .textContent = 3;
 
+
  document.getElementById("time")
   .textContent = 120;
+
 
  document.getElementById("level")
   .textContent = 1;
@@ -1035,25 +1190,25 @@ function restart(){
 
  document.getElementById("levelTitle")
   .textContent =
-   levels[0].title;
+   niveles[0].titulo;
 
 
- createBoard();
+ crearTablero();
 
- draw();
+ dibujarTablero();
 
- drawWords();
+ dibujarPalabras();
 
- startTimer();
+ iniciarTemporizador();
 
 }
 
 
 /* =====================================================
-   INICIAR
+   INICIAR JUEGO
 ===================================================== */
 
-restart();
+reiniciar();
 
 </script>
 
