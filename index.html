@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -45,7 +46,10 @@ h1{
  color:transparent;
 }
 
-.subtitle{margin-top:5px;font-size:17px}
+.subtitle{
+ margin-top:5px;
+ font-size:17px
+}
 
 .stats{
  display:grid;
@@ -101,9 +105,12 @@ h1{
  font-size:clamp(12px,3vw,22px);
  cursor:pointer;
  transition:.15s;
+ user-select:none;
 }
 
-.cell:hover{background:#fff0a6}
+.cell:hover{
+ background:#fff0a6;
+}
 
 .cell.selected{
  background:#ffc94f;
@@ -209,7 +216,9 @@ button{
  box-shadow:0 20px 60px #0005;
 }
 
-.finalEmoji{font-size:65px}
+.finalEmoji{
+ font-size:65px;
+}
 
 .finalBox h2{
  color:#6258d7;
@@ -232,11 +241,27 @@ button{
 }
 
 @media(max-width:700px){
- .container{padding:13px}
- .game{display:block}
- .panel{margin-top:18px}
- .stats{grid-template-columns:repeat(2,1fr)}
- .cell{font-size:clamp(11px,4vw,18px)}
+
+ .container{
+  padding:13px
+ }
+
+ .game{
+  display:block
+ }
+
+ .panel{
+  margin-top:18px
+ }
+
+ .stats{
+  grid-template-columns:repeat(2,1fr)
+ }
+
+ .cell{
+  font-size:clamp(11px,4vw,18px)
+ }
+
 }
 </style>
 </head>
@@ -246,98 +271,128 @@ button{
 <div class="container">
 
 <header>
- <div class="badge">🎮 DESAFÍO ESCOLAR</div>
- <h1>🌈 MISIÓN 6.º</h1>
- <div class="subtitle">
-   ¿Podés superar los 3 niveles?
+
+ <div class="badge">
+  🎮 DESAFÍO ESCOLAR
  </div>
+
+ <h1>
+  🌈 MISIÓN 6.º
+ </h1>
+
+ <div class="subtitle">
+  ¿Podés superar los 3 niveles?
+ </div>
+
 </header>
+
 
 <div class="stats">
 
  <div class="stat points">
-   ⭐ PUNTOS
-   <b id="points">0</b>
+  ⭐ PUNTOS
+  <b id="points">0</b>
  </div>
 
  <div class="stat time">
-   ⏱️ TIEMPO
-   <b id="time">120</b>
+  ⏱️ TIEMPO
+  <b id="time">120</b>
  </div>
 
  <div class="stat lives">
-   ❤️ VIDAS
-   <b id="lives">3</b>
+  ❤️ VIDAS
+  <b id="lives">3</b>
  </div>
 
  <div class="stat level">
-   🚀 NIVEL
-   <b id="level">1</b>
+  🚀 NIVEL
+  <b id="level">1</b>
  </div>
 
 </div>
+
 
 <div class="game">
 
 <div>
 
  <div class="board">
-   <div id="grid"></div>
+  <div id="grid"></div>
  </div>
 
  <div id="message"></div>
 
 </div>
 
+
 <div class="panel">
 
  <div class="levelTitle" id="levelTitle">
-   🔎 NIVEL 1
+  🔎 NIVEL 1
  </div>
 
- <h2>🎯 Encontrá:</h2>
+ <h2>
+  🎯 Encontrá:
+ </h2>
 
  <div class="words" id="words"></div>
 
  <div class="clues" id="clues">
-   💡 <b>Cómo jugar:</b><br><br>
-   Tocá la primera letra y después la última letra de una palabra.
-   Puede estar horizontal, vertical o diagonal.
+  💡 <b>Cómo jugar:</b>
+  <br><br>
+  Tocá la primera letra y después la última letra de una palabra.
+  <br><br>
+  Puede estar horizontal, vertical o diagonal.
  </div>
 
- <button onclick="restart()">🔄 NUEVO JUEGO</button>
+ <button onclick="reiniciar()">
+  🔄 NUEVO JUEGO
+ </button>
 
 </div>
 
 </div>
 
 </div>
+
 
 <div id="final">
 
  <div class="finalBox">
 
-   <div class="finalEmoji" id="finalEmoji">🏆</div>
+  <div class="finalEmoji" id="finalEmoji">
+   🏆
+  </div>
 
-   <h2 id="finalTitle">¡MISIÓN CUMPLIDA!</h2>
+  <h2 id="finalTitle">
+   ¡MISIÓN CUMPLIDA!
+  </h2>
 
-   <div class="finalScore" id="finalScore"></div>
+  <div class="finalScore" id="finalScore"></div>
 
-   <div class="secret" id="secret"></div>
+  <div class="secret" id="secret"></div>
 
-   <button onclick="restart()">🎮 JUGAR DE NUEVO</button>
+  <button onclick="reiniciar()">
+   🎮 JUGAR DE NUEVO
+  </button>
 
  </div>
 
 </div>
 
+
 <script>
 
 /* =====================================================
-   TABLERO
+   TAMAÑO DEL TABLERO
 ===================================================== */
 
 const TAMANO = 12;
+
+
+/* =====================================================
+   NIVELES
+===================================================== */
 
 const niveles = [
 
@@ -349,10 +404,15 @@ const niveles = [
  titulo:"🔎 NIVEL 1 — CALENTAMIENTO",
 
  palabras:[
+
   ["PLANETA",0,0,0,6],
+
   ["ESCUELA",2,1,2,7],
+
   ["AMISTAD",5,0,5,6],
+
   ["CIENCIA",8,1,8,7]
+
  ],
 
  pistas:[]
@@ -367,12 +427,54 @@ const niveles = [
  titulo:"🔥 NIVEL 2 — MÁS DIFÍCIL",
 
  palabras:[
-  ["NATURALEZA",8,9,8,0],
-  ["AVENTURA",8,0,1,7],
-  ["ANIMALES",9,9,2,9],
-  ["LECTURA",5,7,11,7],
-  ["PLANETA",5,6,5,0],
-  ["CIENCIA",4,10,10,10]
+
+  /*
+   NATURALEZA
+   Horizontal
+  */
+
+  ["NATURALEZA",0,0,0,9],
+
+
+  /*
+   AVENTURA
+   Diagonal
+  */
+
+  ["AVENTURA",2,0,9,7],
+
+
+  /*
+   ANIMALES
+   Vertical
+  */
+
+  ["ANIMALES",1,11,8,11],
+
+
+  /*
+   LECTURA
+   Horizontal
+  */
+
+  ["LECTURA",4,2,4,8],
+
+
+  /*
+   PLANETA
+   Horizontal
+  */
+
+  ["PLANETA",6,0,6,6],
+
+
+  /*
+   CIENCIA
+   Vertical
+  */
+
+  ["CIENCIA",3,9,9,9]
+
  ],
 
  pistas:[]
@@ -387,16 +489,86 @@ const niveles = [
  titulo:"😈 NIVEL 3 — DESAFÍO FINAL",
 
  palabras:[
-  ["MISTERIO",9,8,9,1],
-  ["AVENTURA",6,2,6,9],
-  ["FAMILIA",2,10,2,4],
-  ["DESAFIO",1,1,7,1],
-  ["PLANETA",7,11,7,5],
-  ["MUSICA",6,0,11,0],
-  ["FUTURO",3,8,3,3],
-  ["AMIGOS",5,3,5,8],
-  ["EQUIPO",5,2,0,2],
+
+  /*
+   MISTERIO
+   Horizontal
+  */
+
+  ["MISTERIO",0,3,0,10],
+
+
+  /*
+   AVENTURA
+   Horizontal
+  */
+
+  ["AVENTURA",2,1,2,8],
+
+
+  /*
+   FAMILIA
+   Horizontal
+  */
+
+  ["FAMILIA",4,0,4,6],
+
+
+  /*
+   DESAFIO
+   Vertical
+  */
+
+  ["DESAFIO",1,10,7,10],
+
+
+  /*
+   PLANETA
+   Horizontal
+  */
+
+  ["PLANETA",6,1,6,7],
+
+
+  /*
+   MUSICA
+   Vertical
+  */
+
+  ["MUSICA",7,0,11,0],
+
+
+  /*
+   FUTURO
+   Horizontal
+  */
+
+  ["FUTURO",8,3,8,8],
+
+
+  /*
+   AMIGOS
+   Horizontal
+  */
+
+  ["AMIGOS",10,3,10,8],
+
+
+  /*
+   EQUIPO
+   Vertical
+  */
+
+  ["EQUIPO",5,8,0,8],
+
+
+  /*
+   JUEGO
+   Diagonal
+  */
+
   ["JUEGO",11,6,7,2]
+
  ],
 
  pistas:[]
@@ -406,24 +578,33 @@ const niveles = [
 
 
 /* =====================================================
-   LETRAS PARA COMPLETAR EL TABLERO
+   LETRAS PARA COMPLETAR
 ===================================================== */
 
-const letras = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+const letras =
+ "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
 
 /* =====================================================
-   VARIABLES DEL JUEGO
+   VARIABLES
 ===================================================== */
 
 let tablero = [];
+
 let nivelActual = 0;
+
 let palabrasEncontradas = [];
+
 let primeraCelda = null;
+
 let puntos = 0;
+
 let vidas = 3;
+
 let tiempo = 120;
+
 let jugando = true;
+
 let temporizador;
 
 
@@ -435,41 +616,63 @@ function crearTablero(){
 
  tablero = Array.from(
   {length:TAMANO},
-  ()=>Array(TAMANO).fill("")
+  () => Array(TAMANO).fill("")
  );
 
- const datos = niveles[nivelActual].palabras;
+
+ const datos =
+  niveles[nivelActual].palabras;
 
 
  datos.forEach(elemento => {
 
-  const palabra = elemento[0];
+  const palabra =
+   elemento[0];
 
-  const filaInicial = elemento[1];
-  const columnaInicial = elemento[2];
+  const filaInicial =
+   elemento[1];
 
-  const filaFinal = elemento[3];
-  const columnaFinal = elemento[4];
+  const columnaInicial =
+   elemento[2];
+
+  const filaFinal =
+   elemento[3];
+
+  const columnaFinal =
+   elemento[4];
 
 
   const direccionFila =
-   Math.sign(filaFinal-filaInicial);
+   Math.sign(
+    filaFinal-filaInicial
+   );
+
 
   const direccionColumna =
-   Math.sign(columnaFinal-columnaInicial);
+   Math.sign(
+    columnaFinal-columnaInicial
+   );
 
 
-  for(let i=0;i<palabra.length;i++){
+  for(
+   let i=0;
+   i<palabra.length;
+   i++
+  ){
 
    const fila =
-    filaInicial + direccionFila*i;
+    filaInicial +
+    direccionFila*i;
+
 
    const columna =
-    columnaInicial + direccionColumna*i;
+    columnaInicial +
+    direccionColumna*i;
 
 
    /*
-      CONTROL DE CRUCES
+      Si ya hay una letra,
+      debe ser la misma.
    */
 
    if(
@@ -478,15 +681,10 @@ function crearTablero(){
    ){
 
     console.error(
-     "ERROR DE CRUCE:",
+     "Cruce incorrecto:",
      palabra,
-     "posición",
      fila,
-     columna,
-     "esperaba",
-     palabra[i],
-     "pero ya existe",
-     tablero[fila][columna]
+     columna
     );
 
    }
@@ -501,14 +699,24 @@ function crearTablero(){
 
 
  /* =================================================
-    COMPLETAR ESPACIOS VACÍOS
+    COMPLETAR ESPACIOS
  ================================================= */
 
- for(let fila=0;fila<TAMANO;fila++){
+ for(
+  let fila=0;
+  fila<TAMANO;
+  fila++
+ ){
 
-  for(let columna=0;columna<TAMANO;columna++){
+  for(
+   let columna=0;
+   columna<TAMANO;
+   columna++
+  ){
 
-   if(!tablero[fila][columna]){
+   if(
+    !tablero[fila][columna]
+   ){
 
     tablero[fila][columna] =
      letras[
@@ -538,23 +746,35 @@ function dibujarTablero(){
  cuadricula.innerHTML = "";
 
 
- for(let fila=0;fila<TAMANO;fila++){
+ for(
+  let fila=0;
+  fila<TAMANO;
+  fila++
+ ){
 
-  for(let columna=0;columna<TAMANO;columna++){
+  for(
+   let columna=0;
+   columna<TAMANO;
+   columna++
+  ){
 
    const celda =
     document.createElement("div");
 
 
-   celda.className = "cell";
+   celda.className =
+    "cell";
 
 
    celda.textContent =
     tablero[fila][columna];
 
 
-   celda.dataset.fila = fila;
-   celda.dataset.columna = columna;
+   celda.dataset.fila =
+    fila;
+
+   celda.dataset.columna =
+    columna;
 
 
    celda.onclick = () =>
@@ -571,7 +791,7 @@ function dibujarTablero(){
 
 
 /* =====================================================
-   LISTA DE PALABRAS
+   DIBUJAR PALABRAS
 ===================================================== */
 
 function dibujarPalabras(){
@@ -589,7 +809,8 @@ function dibujarPalabras(){
     document.createElement("div");
 
 
-   palabra.className = "word";
+   palabra.className =
+    "word";
 
 
    palabra.id =
@@ -600,7 +821,9 @@ function dibujarPalabras(){
     elemento[0];
 
 
-   contenedor.appendChild(palabra);
+   contenedor.appendChild(
+    palabra
+   );
 
   }
  );
@@ -614,11 +837,13 @@ function dibujarPalabras(){
 
 function seleccionarCelda(celda){
 
- if(!jugando) return;
+ if(!jugando)
+  return;
 
 
  const fila =
   Number(celda.dataset.fila);
+
 
  const columna =
   Number(celda.dataset.columna);
@@ -636,7 +861,10 @@ function seleccionarCelda(celda){
   };
 
 
-  celda.classList.add("selected");
+  celda.classList.add(
+   "selected"
+  );
+
 
   return;
 
@@ -664,7 +892,7 @@ function seleccionarCelda(celda){
 
 
  /* =================================================
-    NO FORMA UNA PALABRA
+    NO ES UNA PALABRA
  ================================================= */
 
  if(!palabra){
@@ -673,7 +901,8 @@ function seleccionarCelda(celda){
 
 
   document.getElementById("lives")
-   .textContent = vidas;
+   .textContent =
+   vidas;
 
 
   mostrarMensaje(
@@ -681,7 +910,7 @@ function seleccionarCelda(celda){
   );
 
 
-  if(vidas <= 0){
+  if(vidas<=0){
 
    finalizar(false);
 
@@ -696,11 +925,13 @@ function seleccionarCelda(celda){
 
 
  /* =================================================
-    PALABRA YA ENCONTRADA
+    YA ENCONTRADA
  ================================================= */
 
  if(
-  palabrasEncontradas.includes(palabra)
+  palabrasEncontradas.includes(
+   palabra
+  )
  ){
 
   mostrarMensaje(
@@ -719,7 +950,9 @@ function seleccionarCelda(celda){
     PALABRA ENCONTRADA
  ================================================= */
 
- palabrasEncontradas.push(palabra);
+ palabrasEncontradas.push(
+  palabra
+ );
 
 
  marcarPalabra(
@@ -728,16 +961,27 @@ function seleccionarCelda(celda){
  );
 
 
- document
-  .getElementById("word-"+palabra)
-  .classList.add("found");
+ const elementoPalabra =
+  document.getElementById(
+   "word-"+palabra
+  );
+
+
+ if(elementoPalabra){
+
+  elementoPalabra.classList.add(
+   "found"
+  );
+
+ }
 
 
  puntos += 150;
 
 
  document.getElementById("points")
-  .textContent = puntos;
+  .textContent =
+  puntos;
 
 
  mostrarMensaje(
@@ -749,7 +993,7 @@ function seleccionarCelda(celda){
 
 
  /* =================================================
-    PASAR AL SIGUIENTE NIVEL
+    CAMBIAR DE NIVEL
  ================================================= */
 
  if(
@@ -757,7 +1001,10 @@ function seleccionarCelda(celda){
   niveles[nivelActual].palabras.length
  ){
 
-  if(nivelActual < niveles.length-1){
+  if(
+   nivelActual <
+   niveles.length-1
+  ){
 
    setTimeout(() => {
 
@@ -770,12 +1017,12 @@ function seleccionarCelda(celda){
 
     document.getElementById("level")
      .textContent =
-      nivelActual+1;
+     nivelActual+1;
 
 
     document.getElementById("levelTitle")
      .textContent =
-      niveles[nivelActual].titulo;
+     niveles[nivelActual].titulo;
 
 
     crearTablero();
@@ -796,7 +1043,7 @@ function seleccionarCelda(celda){
   }else{
 
    setTimeout(
-    ()=>finalizar(true),
+    () => finalizar(true),
     800
    );
 
@@ -808,7 +1055,7 @@ function seleccionarCelda(celda){
 
 
 /* =====================================================
-   OBTENER PALABRA ENTRE DOS PUNTOS
+   OBTENER PALABRA
 ===================================================== */
 
 function obtenerPalabra(a,b){
@@ -821,9 +1068,14 @@ function obtenerPalabra(a,b){
   b.columna-a.columna;
 
 
- /* =================================================
-    HORIZONTAL, VERTICAL O DIAGONAL
- ================================================= */
+ /*
+    Solo permitimos:
+
+    Horizontal
+    Vertical
+    Diagonal
+ */
+
 
  if(
   diferenciaFila !== 0 &&
@@ -866,14 +1118,20 @@ function obtenerPalabra(a,b){
  let texto = "";
 
 
- for(let i=0;i<=pasos;i++){
+ for(
+  let i=0;
+  i<=pasos;
+  i++
+ ){
 
   const fila =
-   a.fila + direccionFila*i;
+   a.fila +
+   direccionFila*i;
 
 
   const columna =
-   a.columna + direccionColumna*i;
+   a.columna +
+   direccionColumna*i;
 
 
   texto +=
@@ -883,7 +1141,7 @@ function obtenerPalabra(a,b){
 
 
  /* =================================================
-    COMPROBAR LAS PALABRAS
+    COMPROBAR PALABRAS
  ================================================= */
 
  for(
@@ -895,22 +1153,29 @@ function obtenerPalabra(a,b){
    elemento[0];
 
 
-  /* Dirección normal */
+  /*
+     Dirección normal
+  */
 
-  if(texto === palabraObjetivo){
+  if(
+   texto === palabraObjetivo
+  ){
 
    return palabraObjetivo;
 
   }
 
 
-  /* Dirección inversa */
+  /*
+     Dirección inversa
+  */
 
   if(
    texto
     .split("")
     .reverse()
-    .join("") === palabraObjetivo
+    .join("") ===
+   palabraObjetivo
   ){
 
    return palabraObjetivo;
@@ -926,7 +1191,7 @@ function obtenerPalabra(a,b){
 
 
 /* =====================================================
-   MARCAR PALABRA ENCONTRADA
+   MARCAR PALABRA
 ===================================================== */
 
 function marcarPalabra(a,b){
@@ -958,14 +1223,20 @@ function marcarPalabra(a,b){
    : diferenciaColumna/pasos;
 
 
- for(let i=0;i<=pasos;i++){
+ for(
+  let i=0;
+  i<=pasos;
+  i++
+ ){
 
   const fila =
-   a.fila + direccionFila*i;
+   a.fila +
+   direccionFila*i;
 
 
   const columna =
-   a.columna + direccionColumna*i;
+   a.columna +
+   direccionColumna*i;
 
 
   const celda =
@@ -976,7 +1247,9 @@ function marcarPalabra(a,b){
 
   if(celda){
 
-   celda.classList.add("found");
+   celda.classList.add(
+    "found"
+   );
 
   }
 
@@ -992,34 +1265,43 @@ function marcarPalabra(a,b){
 function limpiarSeleccion(){
 
  document
-  .querySelectorAll(".cell.selected")
+  .querySelectorAll(
+   ".cell.selected"
+  )
   .forEach(
    celda =>
-    celda.classList.remove("selected")
+    celda.classList.remove(
+     "selected"
+    )
   );
 
 }
 
 
 /* =====================================================
-   MOSTRAR MENSAJES
+   MOSTRAR MENSAJE
 ===================================================== */
 
 function mostrarMensaje(texto){
 
  const caja =
-  document.getElementById("message");
+  document.getElementById(
+   "message"
+  );
 
 
- caja.innerHTML = texto;
+ caja.innerHTML =
+  texto;
 
 
- caja.style.display = "block";
+ caja.style.display =
+  "block";
 
 
  setTimeout(() => {
 
-  caja.style.display = "none";
+  caja.style.display =
+   "none";
 
  },1500);
 
@@ -1032,28 +1314,33 @@ function mostrarMensaje(texto){
 
 function iniciarTemporizador(){
 
- clearInterval(temporizador);
+ clearInterval(
+  temporizador
+ );
 
 
- temporizador = setInterval(() => {
+ temporizador =
+  setInterval(() => {
 
-  if(!jugando) return;
-
-
-  tiempo--;
-
-
-  document.getElementById("time")
-   .textContent = tiempo;
+   if(!jugando)
+    return;
 
 
-  if(tiempo <= 0){
+   tiempo--;
 
-   finalizar(false);
 
-  }
+   document.getElementById("time")
+    .textContent =
+    tiempo;
 
- },1000);
+
+   if(tiempo<=0){
+
+    finalizar(false);
+
+   }
+
+  },1000);
 
 }
 
@@ -1067,77 +1354,83 @@ function finalizar(gano){
  jugando = false;
 
 
- clearInterval(temporizador);
+ clearInterval(
+  temporizador
+ );
 
 
  const ventanaFinal =
-  document.getElementById("final");
+  document.getElementById(
+   "final"
+  );
 
 
- ventanaFinal.style.display = "flex";
+ ventanaFinal.style.display =
+  "flex";
 
-
- /* =================================================
-    GANÓ
- ================================================= */
 
  if(gano){
 
-  document.getElementById("finalEmoji")
-   .textContent = "🏆";
+  document.getElementById(
+   "finalEmoji"
+  ).textContent =
+   "🏆";
 
 
-  document.getElementById("finalTitle")
-   .textContent =
-    "¡MISIÓN CUMPLIDA!";
+  document.getElementById(
+   "finalTitle"
+  ).textContent =
+   "¡MISIÓN CUMPLIDA!";
 
 
-  document.getElementById("finalScore")
-   .innerHTML =
-    "🎉 ¡Superaste los 3 niveles!<br><br>"+
-    "⭐ Puntaje final: <b>"+
-    puntos+
-    "</b><br>"+
-    "⏱️ Tiempo restante: <b>"+
-    tiempo+
-    " segundos</b>";
+  document.getElementById(
+   "finalScore"
+  ).innerHTML =
+   "🎉 ¡Superaste los 3 niveles!<br><br>"+
+   "⭐ Puntaje final: <b>"+
+   puntos+
+   "</b><br>"+
+   "⏱️ Tiempo restante: <b>"+
+   tiempo+
+   " segundos</b>";
 
 
-  document.getElementById("secret")
-   .innerHTML =
-    "🔐 PALABRA SECRETA<br><br>"+
-    "🌟 ¡CAMPEÓN/A DEL DESAFÍO! 🌟";
+  document.getElementById(
+   "secret"
+  ).innerHTML =
+   "🔐 PALABRA SECRETA<br><br>"+
+   "🌟 ¡CAMPEÓN/A DEL DESAFÍO! 🌟";
 
 
  }else{
 
-
-  /* =================================================
-     PERDIÓ
- ================================================= */
-
-  document.getElementById("finalEmoji")
-   .textContent = "😅";
+  document.getElementById(
+   "finalEmoji"
+  ).textContent =
+   "😅";
 
 
-  document.getElementById("finalTitle")
-   .textContent =
-    "¡CASI LO LOGRÁS!";
+  document.getElementById(
+   "finalTitle"
+  ).textContent =
+   "¡CASI LO LOGRÁS!";
 
 
-  document.getElementById("finalScore")
-   .innerHTML =
-    "Llegaste hasta el <b>Nivel "+
-    (nivelActual+1)+
-    "</b>.<br><br>"+
-    "⭐ Puntaje: <b>"+
-    puntos+
-    "</b>";
+  document.getElementById(
+   "finalScore"
+  ).innerHTML =
+   "Llegaste hasta el <b>Nivel "+
+   (nivelActual+1)+
+   "</b>.<br><br>"+
+   "⭐ Puntaje: <b>"+
+   puntos+
+   "</b>";
 
 
-  document.getElementById("secret")
-   .innerHTML =
-    "💪 ¡Intentá nuevamente!";
+  document.getElementById(
+   "secret"
+  ).innerHTML =
+   "💪 ¡Intentá nuevamente!";
 
  }
 
@@ -1145,12 +1438,14 @@ function finalizar(gano){
 
 
 /* =====================================================
-   REINICIAR JUEGO
+   REINICIAR
 ===================================================== */
 
 function reiniciar(){
 
- clearInterval(temporizador);
+ clearInterval(
+  temporizador
+ );
 
 
  nivelActual = 0;
@@ -1169,28 +1464,33 @@ function reiniciar(){
 
 
  document.getElementById("points")
-  .textContent = 0;
+  .textContent =
+  0;
 
 
  document.getElementById("lives")
-  .textContent = 3;
+  .textContent =
+  3;
 
 
  document.getElementById("time")
-  .textContent = 120;
+  .textContent =
+  120;
 
 
  document.getElementById("level")
-  .textContent = 1;
+  .textContent =
+  1;
 
 
  document.getElementById("final")
-  .style.display = "none";
+  .style.display =
+  "none";
 
 
  document.getElementById("levelTitle")
   .textContent =
-   niveles[0].titulo;
+  niveles[0].titulo;
 
 
  crearTablero();
@@ -1205,7 +1505,7 @@ function reiniciar(){
 
 
 /* =====================================================
-   INICIAR JUEGO
+   INICIAR
 ===================================================== */
 
 reiniciar();
@@ -1214,3 +1514,5 @@ reiniciar();
 
 </body>
 </html>
+```
+
