@@ -3,343 +3,309 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>🧠 Misión 6.º</title>
+<title>🌈 Misión 6.º</title>
 
 <style>
-
-@import url('https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;600;700;800&display=swap');
-
-*{
-box-sizing:border-box;
-}
+*{box-sizing:border-box}
 
 body{
-margin:0;
-font-family:'Baloo 2',Arial,sans-serif;
-min-height:100vh;
-background:
-radial-gradient(circle at 10% 20%,#ffd6e7 0 12%,transparent 13%),
-radial-gradient(circle at 90% 10%,#c8f7ff 0 14%,transparent 15%),
-radial-gradient(circle at 85% 90%,#fff0a8 0 12%,transparent 13%),
-linear-gradient(135deg,#8ed8ff,#c7b5ff,#ffb6d9);
-padding:18px;
-color:#34345c;
+ margin:0;
+ font-family:Arial,sans-serif;
+ background:linear-gradient(135deg,#75d5ff,#9d8cff,#ff9fca);
+ min-height:100vh;
+ padding:15px;
+ color:#35355c;
 }
 
-.contenedor{
-max-width:900px;
-margin:auto;
-background:rgba(255,255,255,.96);
-border-radius:35px;
-padding:25px;
-box-shadow:0 15px 45px rgba(49,40,100,.25);
+.container{
+ max-width:950px;
+ margin:auto;
+ background:white;
+ border-radius:30px;
+ padding:22px;
+ box-shadow:0 15px 45px #403b7a55;
 }
 
-.encabezado{
-text-align:center;
-}
+header{text-align:center}
 
 .badge{
-display:inline-block;
-background:linear-gradient(90deg,#ff5fa2,#7d6cff);
-color:white;
-padding:7px 18px;
-border-radius:30px;
-font-weight:700;
-letter-spacing:1px;
+ display:inline-block;
+ background:linear-gradient(90deg,#ff579b,#655de8);
+ color:white;
+ padding:7px 18px;
+ border-radius:20px;
+ font-weight:bold;
 }
 
 h1{
-font-size:clamp(34px,7vw,58px);
-line-height:1;
-margin:8px 0;
-background:linear-gradient(90deg,#ff4f91,#765cff,#00aeea);
--webkit-background-clip:text;
-color:transparent;
+ margin:8px 0 3px;
+ font-size:clamp(34px,7vw,55px);
+ background:linear-gradient(90deg,#ff4d91,#685ce8,#00aeea);
+ -webkit-background-clip:text;
+ color:transparent;
 }
 
-.descripcion{
-font-size:18px;
-margin:0 0 18px;
-}
+.subtitle{margin-top:5px;font-size:17px}
 
-.estadisticas{
-display:grid;
-grid-template-columns:repeat(4,1fr);
-gap:10px;
-margin-bottom:20px;
+.stats{
+ display:grid;
+ grid-template-columns:repeat(4,1fr);
+ gap:10px;
+ margin:20px 0;
 }
 
 .stat{
-border-radius:20px;
-padding:10px 5px;
-font-weight:700;
-background:#f2f3ff;
+ padding:10px;
+ border-radius:18px;
+ text-align:center;
+ font-weight:bold;
 }
 
-.stat span{
-display:block;
-font-size:25px;
+.stat b{
+ display:block;
+ font-size:25px;
+ margin-top:3px;
 }
 
-.puntos{background:#fff0b8}
-.tiempo{background:#c9f4ff}
-.vidas{background:#ffd3e4}
-.racha{background:#d9ffd5}
+.points{background:#fff0a8}
+.time{background:#c7f3ff}
+.lives{background:#ffd1e1}
+.level{background:#d8ffd2}
 
-.juego{
-display:flex;
-gap:25px;
-align-items:flex-start;
+.game{
+ display:grid;
+ grid-template-columns:minmax(0,1fr) 280px;
+ gap:22px;
 }
 
-.tablero{
-flex:1;
+.board{
+ background:#6960dc;
+ padding:7px;
+ border-radius:20px;
 }
 
-#sopa{
-display:grid;
-grid-template-columns:repeat(12,1fr);
-gap:4px;
-background:#7065d8;
-padding:7px;
-border-radius:20px;
-box-shadow:0 8px 20px rgba(65,54,160,.25);
-touch-action:none;
+#grid{
+ display:grid;
+ grid-template-columns:repeat(12,1fr);
+ gap:3px;
 }
 
-.letra{
-aspect-ratio:1;
-display:flex;
-align-items:center;
-justify-content:center;
-background:#fff;
-border-radius:8px;
-font-weight:800;
-font-size:clamp(13px,3vw,24px);
-cursor:pointer;
-transition:.15s;
-color:#454572;
+.cell{
+ aspect-ratio:1;
+ background:white;
+ border-radius:6px;
+ display:flex;
+ align-items:center;
+ justify-content:center;
+ font-weight:bold;
+ font-size:clamp(12px,3vw,22px);
+ cursor:pointer;
+ transition:.15s;
 }
 
-.letra:hover{
-transform:scale(1.08);
-background:#fff4a8;
+.cell:hover{background:#fff0a6}
+
+.cell.selected{
+ background:#ffc94f;
+ transform:scale(1.05);
 }
 
-.letra.seleccionada{
-background:#ffca55;
-transform:scale(1.05);
-}
-
-.letra.encontrada{
-background:#55d6a4;
-color:white;
-animation:pop .35s;
-}
-
-@keyframes pop{
-0%{transform:scale(.5)}
-70%{transform:scale(1.15)}
-100%{transform:scale(1)}
+.cell.found{
+ background:#54d5a3;
+ color:white;
 }
 
 .panel{
-width:260px;
-background:#f5f4ff;
-border-radius:25px;
-padding:18px;
+ background:#f4f3ff;
+ border-radius:22px;
+ padding:18px;
 }
 
 .panel h2{
-margin-top:0;
-color:#6256d7;
+ margin-top:0;
+ color:#5f55d6;
 }
 
-.palabras{
-display:flex;
-flex-wrap:wrap;
-gap:8px;
+.levelTitle{
+ background:#6960dc;
+ color:white;
+ padding:10px;
+ border-radius:15px;
+ text-align:center;
+ font-weight:bold;
+ margin-bottom:12px;
 }
 
-.palabra{
-padding:6px 10px;
-border-radius:15px;
-background:white;
-font-weight:700;
-font-size:14px;
-box-shadow:0 2px 5px #ddd;
+.words{
+ display:flex;
+ flex-wrap:wrap;
+ gap:7px;
 }
 
-.palabra.encontrada{
-background:#55d6a4;
-color:white;
-text-decoration:line-through;
+.word{
+ background:white;
+ padding:6px 9px;
+ border-radius:13px;
+ font-size:13px;
+ font-weight:bold;
+ box-shadow:0 2px 5px #bbb;
 }
 
-.instruccion{
-margin-top:18px;
-background:#fff5c7;
-padding:12px;
-border-radius:15px;
-font-size:14px;
+.word.found{
+ background:#54d5a3;
+ color:white;
+ text-decoration:line-through;
+}
+
+.clues{
+ margin-top:15px;
+ background:#fff4c4;
+ padding:12px;
+ border-radius:15px;
+ font-size:14px;
 }
 
 button{
-width:100%;
-margin-top:18px;
-padding:14px;
-border:0;
-border-radius:20px;
-font-family:inherit;
-font-size:18px;
-font-weight:800;
-color:white;
-background:linear-gradient(90deg,#ff579b,#7461e8);
-cursor:pointer;
-box-shadow:0 6px 15px rgba(95,80,210,.3);
-transition:.2s;
+ width:100%;
+ border:0;
+ padding:13px;
+ margin-top:15px;
+ border-radius:18px;
+ background:linear-gradient(90deg,#ff579b,#665de7);
+ color:white;
+ font-size:17px;
+ font-weight:bold;
+ cursor:pointer;
 }
 
-button:hover{
-transform:translateY(-2px);
+#message{
+ text-align:center;
+ margin-top:15px;
+ padding:12px;
+ border-radius:15px;
+ background:#e4ffec;
+ font-weight:bold;
+ display:none;
 }
 
 #final{
-display:none;
-position:fixed;
-inset:0;
-background:rgba(42,35,80,.75);
-z-index:10;
-align-items:center;
-justify-content:center;
-padding:20px;
+ position:fixed;
+ inset:0;
+ background:#302b64dd;
+ display:none;
+ align-items:center;
+ justify-content:center;
+ padding:20px;
+ z-index:20;
 }
 
-.finalCaja{
-background:white;
-border-radius:35px;
-padding:35px;
-max-width:450px;
-width:100%;
-text-align:center;
-box-shadow:0 20px 60px rgba(0,0,0,.3);
+.finalBox{
+ background:white;
+ max-width:450px;
+ width:100%;
+ padding:30px;
+ border-radius:30px;
+ text-align:center;
+ box-shadow:0 20px 60px #0005;
 }
 
-.finalEmoji{
-font-size:70px;
+.finalEmoji{font-size:65px}
+
+.finalBox h2{
+ color:#6258d7;
+ font-size:34px;
+ margin:5px;
 }
 
-.finalCaja h2{
-font-size:38px;
-margin:5px;
-color:#6256d7;
+.finalScore{
+ font-size:21px;
+ line-height:1.6;
 }
 
-.resultado{
-font-size:22px;
-margin:15px;
+.secret{
+ background:#fff0a8;
+ padding:15px;
+ border-radius:18px;
+ margin-top:15px;
+ font-size:20px;
+ font-weight:bold;
 }
 
 @media(max-width:700px){
-
-body{
-padding:8px;
+ .container{padding:13px}
+ .game{display:block}
+ .panel{margin-top:18px}
+ .stats{grid-template-columns:repeat(2,1fr)}
+ .cell{font-size:clamp(11px,4vw,18px)}
 }
-
-.contenedor{
-padding:14px;
-border-radius:25px;
-}
-
-.estadisticas{
-grid-template-columns:repeat(2,1fr);
-}
-
-.juego{
-display:block;
-}
-
-.panel{
-width:100%;
-margin-top:18px;
-}
-
-#sopa{
-gap:3px;
-padding:5px;
-}
-
-.letra{
-border-radius:5px;
-}
-
-}
-
 </style>
 </head>
 
 <body>
 
-<div class="contenedor">
+<div class="container">
 
-<div class="encabezado">
+<header>
+ <div class="badge">🎮 DESAFÍO ESCOLAR</div>
+ <h1>🌈 MISIÓN 6.º</h1>
+ <div class="subtitle">
+   ¿Podés superar los 3 niveles?
+ </div>
+</header>
 
-<div class="badge">🎮 DESAFÍO ESCOLAR</div>
+<div class="stats">
 
-<h1>🧠 MISIÓN 6.º</h1>
+ <div class="stat points">
+   ⭐ PUNTOS
+   <b id="points">0</b>
+ </div>
 
-<p class="descripcion">
-¡Encontrá todas las palabras antes de que se termine el tiempo!
-</p>
+ <div class="stat time">
+   ⏱️ TIEMPO
+   <b id="time">120</b>
+ </div>
 
-</div>
+ <div class="stat lives">
+   ❤️ VIDAS
+   <b id="lives">3</b>
+ </div>
 
-<div class="estadisticas">
-
-<div class="stat puntos">
-⭐ PUNTOS
-<span id="puntos">0</span>
-</div>
-
-<div class="stat tiempo">
-⏱️ TIEMPO
-<span id="tiempo">90</span>
-</div>
-
-<div class="stat vidas">
-❤️ VIDAS
-<span id="vidas">3</span>
-</div>
-
-<div class="stat racha">
-🔥 RACHA
-<span id="racha">0</span>
-</div>
+ <div class="stat level">
+   🚀 NIVEL
+   <b id="level">1</b>
+ </div>
 
 </div>
 
-<div class="juego">
+<div class="game">
 
-<div class="tablero">
+<div>
 
-<div id="sopa"></div>
+ <div class="board">
+   <div id="grid"></div>
+ </div>
+
+ <div id="message"></div>
 
 </div>
 
 <div class="panel">
 
-<h2>🔎 Encontrá:</h2>
+ <div class="levelTitle" id="levelTitle">
+   🔎 NIVEL 1
+ </div>
 
-<div class="palabras" id="palabras"></div>
+ <h2>🎯 Encontrá:</h2>
 
-<div class="instruccion">
-💡 Las palabras pueden aparecer
-<strong>horizontal, vertical o diagonalmente</strong>.
-</div>
+ <div class="words" id="words"></div>
 
-<button onclick="reiniciar()">🔄 NUEVO DESAFÍO</button>
+ <div class="clues" id="clues">
+   💡 <b>Cómo jugar:</b><br><br>
+   Tocá la primera letra y después la última letra de una palabra.
+   Puede estar horizontal, vertical o diagonal.
+ </div>
+
+ <button onclick="restart()">🔄 NUEVO JUEGO</button>
 
 </div>
 
@@ -349,464 +315,512 @@ border-radius:5px;
 
 <div id="final">
 
-<div class="finalCaja">
+ <div class="finalBox">
 
-<div class="finalEmoji" id="emojiFinal">🏆</div>
+   <div class="finalEmoji" id="finalEmoji">🏆</div>
 
-<h2 id="tituloFinal">¡MISIÓN CUMPLIDA!</h2>
+   <h2 id="finalTitle">¡MISIÓN CUMPLIDA!</h2>
 
-<div class="resultado" id="resultadoFinal"></div>
+   <div class="finalScore" id="finalScore"></div>
 
-<button onclick="reiniciar()">🎮 JUGAR DE NUEVO</button>
+   <div class="secret" id="secret"></div>
 
-</div>
+   <button onclick="restart()">🎮 JUGAR DE NUEVO</button>
+
+ </div>
 
 </div>
 
 <script>
 
-const palabras = [
-"PLANETA",
-"ESCUELA",
-"AMISTAD",
-"CIENCIA",
-"NATURALEZA",
-"AVENTURA",
-"ANIMALES",
-"FAMILIA",
-"JUEGO",
-"MUSICA",
-"LECTURA",
-"FUTURO"
+/* =====================================================
+   TABLERO FIJO
+   Esto hace que el juego cargue rápido y nunca quede
+   atrapado generando palabras.
+===================================================== */
+
+const SIZE=12;
+
+const levels=[
+
+{
+ title:"🔎 NIVEL 1 — CALENTAMIENTO",
+ words:[
+  ["PLANETA",0,0,0,6],
+  ["ESCUELA",2,1,2,7],
+  ["AMISTAD",5,0,5,6],
+  ["CIENCIA",8,1,8,7]
+ ],
+ clues:[]
+},
+
+{
+ title:"🔥 NIVEL 2 — MÁS DIFÍCIL",
+ words:[
+  ["NATURALEZA",1,10,10,1],
+  ["AVENTURA",3,0,10,7],
+  ["ANIMALES",11,0,4,7],
+  ["LECTURA",0,11,6,5]
+ ],
+ clues:[]
+},
+
+{
+ title:"😈 NIVEL 3 — DESAFÍO FINAL",
+ words:[
+  ["FAMILIA",10,11,4,5],
+  ["MUSICA",11,9,6,4],
+  ["FUTURO",9,2,4,7],
+  ["JUEGO",1,9,5,5]
+ ],
+ clues:[]
+}
+
 ];
 
-const tamaño=12;
+/* Letras de relleno */
+const letters="ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
-let tablero=[];
-let encontradas=[];
-let seleccion=[];
-let puntos=0;
-let vidas=3;
-let racha=0;
-let tiempo=90;
-let jugando=true;
+/* Variables */
+let board=[];
+let currentLevel=0;
+let found=[];
+let firstCell=null;
+let points=0;
+let lives=3;
+let time=120;
+let playing=true;
 let timer;
 
-const letras="ABCDEFGHIJKLMNÑOPQRSTUVWXYZ";
+/* Crear tablero */
 
-function crearTablero(){
+function createBoard(){
 
-tablero=[];
+ board=Array.from(
+  {length:SIZE},
+  ()=>Array(SIZE).fill("")
+ );
 
-for(let i=0;i<tamaño;i++){
+ const data=levels[currentLevel].words;
 
-tablero[i]=[];
+ data.forEach(item=>{
 
-for(let j=0;j<tamaño;j++){
+  const word=item[0];
+  const r1=item[1];
+  const c1=item[2];
+  const r2=item[3];
+  const c2=item[4];
 
-tablero[i][j]=letras[Math.floor(Math.random()*letras.length)];
+  const dr=Math.sign(r2-r1);
+  const dc=Math.sign(c2-c1);
 
-}
+  for(let i=0;i<word.length;i++){
 
-}
+   const r=r1+dr*i;
+   const c=c1+dc*i;
 
-for(const palabra of palabras){
+   board[r][c]=word[i];
 
-colocarPalabra(palabra);
+  }
 
-}
+ });
 
-}
+ /* Completar espacios vacíos */
 
-function colocarPalabra(palabra){
+ for(let r=0;r<SIZE;r++){
 
-const direcciones=[
-[0,1],
-[1,0],
-[1,1],
-[1,-1]
-];
+  for(let c=0;c<SIZE;c++){
 
-let colocada=false;
+   if(!board[r][c]){
+    board[r][c]=letters[
+     Math.floor(Math.random()*letters.length)
+    ];
+   }
 
-while(!colocada){
+  }
 
-let dir=direcciones[Math.floor(Math.random()*direcciones.length)];
-
-let fila=Math.floor(Math.random()*tamaño);
-let col=Math.floor(Math.random()*tamaño);
-
-let ultimaFila=fila+dir[0]*(palabra.length-1);
-let ultimaCol=col+dir[1]*(palabra.length-1);
-
-if(
-ultimaFila<0 ||
-ultimaFila>=tamaño ||
-ultimaCol<0 ||
-ultimaCol>=tamaño
-) continue;
-
-let posible=true;
-
-for(let i=0;i<palabra.length;i++){
-
-let f=fila+dir[0]*i;
-let c=col+dir[1]*i;
-
-if(
-tablero[f][c]!==""
-&& tablero[f][c]!==palabra[i]
-){
-
-posible=false;
-break;
+ }
 
 }
 
-}
+/* Dibujar */
 
-if(posible){
+function draw(){
 
-for(let i=0;i<palabra.length;i++){
+ const grid=document.getElementById("grid");
 
-let f=fila+dir[0]*i;
-let c=col+dir[1]*i;
+ grid.innerHTML="";
 
-tablero[f][c]=palabra[i];
+ for(let r=0;r<SIZE;r++){
 
-}
+  for(let c=0;c<SIZE;c++){
 
-colocada=true;
+   const cell=document.createElement("div");
 
-}
+   cell.className="cell";
+   cell.textContent=board[r][c];
 
-}
+   cell.dataset.r=r;
+   cell.dataset.c=c;
 
-}
+   cell.onclick=()=>selectCell(cell);
 
-function rellenar(){
+   grid.appendChild(cell);
 
-for(let i=0;i<tamaño;i++){
+  }
 
-for(let j=0;j<tamaño;j++){
-
-if(tablero[i][j]===""){
-
-tablero[i][j]=
-letras[Math.floor(Math.random()*letras.length)];
+ }
 
 }
 
-}
+/* Lista de palabras */
+
+function drawWords(){
+
+ const container=document.getElementById("words");
+
+ container.innerHTML="";
+
+ levels[currentLevel].words.forEach(item=>{
+
+  const div=document.createElement("div");
+
+  div.className="word";
+  div.id="word-"+item[0];
+
+  div.textContent=item[0];
+
+  container.appendChild(div);
+
+ });
 
 }
 
-}
+/* Selección */
 
-function dibujar(){
+function selectCell(cell){
 
-const sopa=document.getElementById("sopa");
+ if(!playing)return;
 
-sopa.innerHTML="";
+ const r=Number(cell.dataset.r);
+ const c=Number(cell.dataset.c);
 
-for(let f=0;f<tamaño;f++){
+ /* Primera letra */
 
-for(let c=0;c<tamaño;c++){
+ if(!firstCell){
 
-const celda=document.createElement("div");
+  firstCell={r,c};
 
-celda.className="letra";
+  cell.classList.add("selected");
 
-celda.textContent=tablero[f][c];
+  return;
 
-celda.dataset.f=f;
-celda.dataset.c=c;
+ }
 
-celda.addEventListener("click",()=>{
-seleccionar(celda);
-});
+ /* Segunda letra */
 
-sopa.appendChild(celda);
+ const second={r,c};
 
-}
+ const word=getWord(firstCell,second);
 
-}
+ clearSelection();
 
-}
+ if(!word){
 
-function crearLista(){
+  lives--;
 
-const lista=document.getElementById("palabras");
+  document.getElementById("lives").textContent=lives;
 
-lista.innerHTML="";
+  showMessage("❌ Esa combinación no forma una palabra.");
 
-palabras.forEach(p=>{
+  if(lives<=0){
+   finish(false);
+  }
 
-const div=document.createElement("div");
+  firstCell=null;
 
-div.className="palabra";
-div.id="p-"+p;
-div.textContent=p;
+  return;
 
-lista.appendChild(div);
+ }
 
-});
+ if(found.includes(word)){
 
-}
+  showMessage("👀 Esa palabra ya estaba encontrada.");
 
-function seleccionar(celda){
+  firstCell=null;
 
-if(!jugando)return;
+  return;
 
-if(celda.classList.contains("encontrada"))return;
+ }
 
-celda.classList.toggle("seleccionada");
+ found.push(word);
 
-const f=Number(celda.dataset.f);
-const c=Number(celda.dataset.c);
+ markWord(firstCell,second);
 
-const existe=seleccion.findIndex(x=>x.f===f&&x.c===c);
+ document.getElementById("word-"+word)
+   .classList.add("found");
 
-if(existe>=0){
+ points+=150;
 
-seleccion.splice(existe,1);
+ document.getElementById("points").textContent=points;
 
-}else{
+ showMessage("🎉 ¡Encontraste "+word+"!");
 
-seleccion.push({f,c});
+ firstCell=null;
 
-}
+ /* Pasar de nivel */
 
-comprobar();
+ if(found.length===levels[currentLevel].words.length){
 
-}
+  if(currentLevel<levels.length-1){
 
-function comprobar(){
+   setTimeout(()=>{
 
-let texto="";
+    currentLevel++;
 
-seleccion.forEach(x=>{
-texto+=tablero[x.f][x.c];
-});
+    found=[];
+    firstCell=null;
 
-let inverso=texto.split("").reverse().join("");
+    document.getElementById("level").textContent=
+      currentLevel+1;
 
-let encontrada=null;
+    document.getElementById("levelTitle").textContent=
+      levels[currentLevel].title;
 
-for(const palabra of palabras){
+    createBoard();
+    draw();
+    drawWords();
 
-if(encontradas.includes(palabra))continue;
+    showMessage("🚀 ¡NIVEL SUPERADO! Ahora viene uno más difícil.");
 
-if(texto===palabra||inverso===palabra){
+   },800);
 
-encontrada=palabra;
-break;
+  }else{
 
-}
+   setTimeout(()=>finish(true),800);
 
-}
+  }
 
-if(encontrada){
-
-encontradas.push(encontrada);
-
-racha++;
-
-puntos+=100+(racha*25);
-
-document.getElementById("puntos").textContent=puntos;
-document.getElementById("racha").textContent=racha;
-
-seleccion.forEach(x=>{
-
-const celda=document.querySelector(
-`.letra[data-f="${x.f}"][data-c="${x.c}"]`
-);
-
-celda.classList.remove("seleccionada");
-celda.classList.add("encontrada");
-
-});
-
-document.getElementById("p-"+encontrada)
-.classList.add("encontrada");
-
-seleccion=[];
-
-if(encontradas.length===palabras.length){
-
-terminar(true);
+ }
 
 }
 
-}else if(texto.length>=3){
+/* Obtener palabra entre dos puntos */
 
-// Si seleccionaron algo que no forma una palabra
-// se limpia la selección al tocar una nueva letra.
+function getWord(a,b){
 
-if(texto.length>=8){
+ const dr=b.r-a.r;
+ const dc=b.c-a.c;
 
-vidas--;
+ /* Solo horizontal, vertical o diagonal */
 
-racha=0;
+ if(
+  dr!==0 &&
+  dc!==0 &&
+  Math.abs(dr)!==Math.abs(dc)
+ ){
+  return null;
+ }
 
-document.getElementById("vidas").textContent=vidas;
-document.getElementById("racha").textContent=racha;
+ const steps=Math.max(
+  Math.abs(dr),
+  Math.abs(dc)
+ );
 
-seleccion.forEach(x=>{
+ if(steps<1)return null;
 
-const celda=document.querySelector(
-`.letra[data-f="${x.f}"][data-c="${x.c}"]`
-);
+ const sr=dr===0?0:dr/steps;
+ const sc=dc===0?0:dc/steps;
 
-celda.classList.remove("seleccionada");
+ let text="";
 
-});
+ for(let i=0;i<=steps;i++){
 
-seleccion=[];
+  const r=a.r+sr*i;
+  const c=a.c+sc*i;
 
-if(vidas<=0){
+  text+=board[r][c];
 
-terminar(false);
+ }
 
-}
+ /* Comprobar palabra normal */
 
-}
+ for(const item of levels[currentLevel].words){
 
-}
+  if(text===item[0]){
+   return item[0];
+  }
 
-}
+  if(
+   text.split("").reverse().join("")===item[0]
+  ){
+   return item[0];
+  }
 
-function iniciarTiempo(){
+ }
 
-clearInterval(timer);
-
-timer=setInterval(()=>{
-
-if(!jugando)return;
-
-tiempo--;
-
-document.getElementById("tiempo").textContent=tiempo;
-
-if(tiempo<=0){
-
-terminar(false);
-
-}
-
-},1000);
+ return null;
 
 }
 
-function terminar(gano){
+/* Marcar */
 
-jugando=false;
+function markWord(a,b){
 
-clearInterval(timer);
+ const dr=b.r-a.r;
+ const dc=b.c-a.c;
 
-const final=document.getElementById("final");
+ const steps=Math.max(
+  Math.abs(dr),
+  Math.abs(dc)
+ );
 
-final.style.display="flex";
+ const sr=dr===0?0:dr/steps;
+ const sc=dc===0?0:dc/steps;
 
-const emoji=document.getElementById("emojiFinal");
-const titulo=document.getElementById("tituloFinal");
-const resultado=document.getElementById("resultadoFinal");
+ for(let i=0;i<=steps;i++){
 
-if(gano){
+  const r=a.r+sr*i;
+  const c=a.c+sc*i;
 
-emoji.textContent="🏆";
+  const cell=document.querySelector(
+   `.cell[data-r="${r}"][data-c="${c}"]`
+  );
 
-titulo.textContent="¡MISIÓN CUMPLIDA!";
+  if(cell)cell.classList.add("found");
 
-resultado.innerHTML=
-`🎉 Encontraste las <strong>12 palabras</strong>.<br><br>
-⭐ Puntaje: <strong>${puntos}</strong><br>
-🔥 Racha máxima: <strong>${racha}</strong>`;
-
-confeti();
-
-}else{
-
-emoji.textContent="😅";
-
-titulo.textContent="¡CASI LO LOGRÁS!";
-
-resultado.innerHTML=
-`Encontraste <strong>${encontradas.length}</strong> de 12 palabras.<br><br>
-⭐ Puntaje: <strong>${puntos}</strong><br><br>
-¡Volvé a intentarlo! 💪`;
+ }
 
 }
 
-}
+/* Limpiar selección */
 
-function confeti(){
+function clearSelection(){
 
-for(let i=0;i<80;i++){
-
-const confeti=document.createElement("div");
-
-confeti.style.position="fixed";
-confeti.style.left=Math.random()*100+"%";
-confeti.style.top="-10px";
-confeti.style.width="10px";
-confeti.style.height="10px";
-confeti.style.background=
-["#ff5fa2","#ffd166","#55d6a4","#7461e8","#4fc3f7"]
-[Math.floor(Math.random()*5)];
-confeti.style.zIndex="20";
-confeti.style.borderRadius="3px";
-
-document.body.appendChild(confeti);
-
-const duracion=1500+Math.random()*2000;
-
-confeti.animate(
-[
-{transform:"translateY(0) rotate(0deg)"},
-{transform:`translateY(${window.innerHeight+100}px) rotate(720deg)`}
-],
-{
-duration:duracion,
-easing:"linear"
-}
-);
-
-setTimeout(()=>confeti.remove(),duracion);
+ document
+ .querySelectorAll(".cell.selected")
+ .forEach(c=>c.classList.remove("selected"));
 
 }
 
-}
+/* Mensaje */
 
-function reiniciar(){
+function showMessage(text){
 
-document.getElementById("final").style.display="none";
+ const box=document.getElementById("message");
 
-puntos=0;
-vidas=3;
-racha=0;
-tiempo=90;
-encontradas=[];
-seleccion=[];
-jugando=true;
+ box.innerHTML=text;
+ box.style.display="block";
 
-document.getElementById("puntos").textContent=0;
-document.getElementById("vidas").textContent=3;
-document.getElementById("racha").textContent=0;
-document.getElementById("tiempo").textContent=90;
-
-crearTablero();
-rellenar();
-dibujar();
-crearLista();
-iniciarTiempo();
+ setTimeout(()=>{
+  box.style.display="none";
+ },1500);
 
 }
 
-reiniciar();
+/* Cronómetro */
+
+function startTimer(){
+
+ clearInterval(timer);
+
+ timer=setInterval(()=>{
+
+  if(!playing)return;
+
+  time--;
+
+  document.getElementById("time").textContent=time;
+
+  if(time<=0){
+   finish(false);
+  }
+
+ },1000);
+
+}
+
+/* Final */
+
+function finish(win){
+
+ playing=false;
+
+ clearInterval(timer);
+
+ const modal=document.getElementById("final");
+
+ modal.style.display="flex";
+
+ if(win){
+
+  document.getElementById("finalEmoji").textContent="🏆";
+
+  document.getElementById("finalTitle").textContent=
+   "¡MISIÓN CUMPLIDA!";
+
+  document.getElementById("finalScore").innerHTML=
+   "🎉 ¡Superaste los 3 niveles!<br><br>"+
+   "⭐ Puntaje final: <b>"+points+"</b><br>"+
+   "⏱️ Tiempo restante: <b>"+time+" segundos</b>";
+
+  document.getElementById("secret").innerHTML=
+   "🔐 PALABRA SECRETA<br><br>"+
+   "🌟 ¡CAMPEÓN/A DEL DESAFÍO! 🌟";
+
+ }else{
+
+  document.getElementById("finalEmoji").textContent="😅";
+
+  document.getElementById("finalTitle").textContent=
+   "¡CASI LO LOGRÁS!";
+
+  document.getElementById("finalScore").innerHTML=
+   "Llegaste hasta el <b>Nivel "+(currentLevel+1)+"</b>.<br><br>"+
+   "⭐ Puntaje: <b>"+points+"</b>";
+
+  document.getElementById("secret").innerHTML=
+   "💪 ¡Intentá nuevamente!";
+
+ }
+
+}
+
+/* Reiniciar */
+
+function restart(){
+
+ clearInterval(timer);
+
+ currentLevel=0;
+ found=[];
+ firstCell=null;
+ points=0;
+ lives=3;
+ time=120;
+ playing=true;
+
+ document.getElementById("points").textContent=0;
+ document.getElementById("lives").textContent=3;
+ document.getElementById("time").textContent=120;
+ document.getElementById("level").textContent=1;
+
+ document.getElementById("final").style.display="none";
+
+ document.getElementById("levelTitle").textContent=
+  levels[0].title;
+
+ createBoard();
+ draw();
+ drawWords();
+ startTimer();
+
+}
+
+restart();
 
 </script>
 
 </body>
+</html>
 </html>
