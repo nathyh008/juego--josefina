@@ -4,15 +4,24 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>🌈 Misión 6.º</title>
 
 <style>
-*{box-sizing:border-box}
+
+*{
+ box-sizing:border-box;
+}
 
 body{
  margin:0;
  font-family:Arial,sans-serif;
- background:linear-gradient(135deg,#75d5ff,#9d8cff,#ff9fca);
+ background:linear-gradient(
+  135deg,
+  #75d5ff,
+  #9d8cff,
+  #ff9fca
+ );
  min-height:100vh;
  padding:15px;
  color:#35355c;
@@ -27,11 +36,17 @@ body{
  box-shadow:0 15px 45px #403b7a55;
 }
 
-header{text-align:center}
+header{
+ text-align:center;
+}
 
 .badge{
  display:inline-block;
- background:linear-gradient(90deg,#ff579b,#655de8);
+ background:linear-gradient(
+  90deg,
+  #ff579b,
+  #655de8
+ );
  color:white;
  padding:7px 18px;
  border-radius:20px;
@@ -41,14 +56,19 @@ header{text-align:center}
 h1{
  margin:8px 0 3px;
  font-size:clamp(34px,7vw,55px);
- background:linear-gradient(90deg,#ff4d91,#685ce8,#00aeea);
+ background:linear-gradient(
+  90deg,
+  #ff4d91,
+  #685ce8,
+  #00aeea
+ );
  -webkit-background-clip:text;
  color:transparent;
 }
 
 .subtitle{
  margin-top:5px;
- font-size:17px
+ font-size:17px;
 }
 
 .stats{
@@ -71,10 +91,21 @@ h1{
  margin-top:3px;
 }
 
-.points{background:#fff0a8}
-.time{background:#c7f3ff}
-.lives{background:#ffd1e1}
-.level{background:#d8ffd2}
+.points{
+ background:#fff0a8;
+}
+
+.time{
+ background:#c7f3ff;
+}
+
+.lives{
+ background:#ffd1e1;
+}
+
+.level{
+ background:#d8ffd2;
+}
 
 .game{
  display:grid;
@@ -178,11 +209,19 @@ button{
  padding:13px;
  margin-top:15px;
  border-radius:18px;
- background:linear-gradient(90deg,#ff579b,#665de7);
+ background:linear-gradient(
+  90deg,
+  #ff579b,
+  #665de7
+ );
  color:white;
  font-size:17px;
  font-weight:bold;
  cursor:pointer;
+}
+
+button:hover{
+ opacity:.9;
 }
 
 #message{
@@ -243,32 +282,36 @@ button{
 @media(max-width:700px){
 
  .container{
-  padding:13px
+  padding:13px;
  }
 
  .game{
-  display:block
+  display:block;
  }
 
  .panel{
-  margin-top:18px
+  margin-top:18px;
  }
 
  .stats{
-  grid-template-columns:repeat(2,1fr)
+  grid-template-columns:repeat(2,1fr);
  }
 
  .cell{
-  font-size:clamp(11px,4vw,18px)
+  font-size:clamp(11px,4vw,18px);
  }
 
 }
+
 </style>
 </head>
 
+
 <body>
 
+
 <div class="container">
+
 
 <header>
 
@@ -314,6 +357,7 @@ button{
 
 <div class="game">
 
+
 <div>
 
  <div class="board">
@@ -327,74 +371,102 @@ button{
 
 <div class="panel">
 
+
  <div class="levelTitle" id="levelTitle">
   🔎 NIVEL 1
  </div>
+
 
  <h2>
   🎯 Encontrá:
  </h2>
 
+
  <div class="words" id="words"></div>
 
- <div class="clues" id="clues">
+
+ <div class="clues">
+
   💡 <b>Cómo jugar:</b>
+
   <br><br>
+
   Tocá la primera letra y después la última letra de una palabra.
+
   <br><br>
+
   Puede estar horizontal, vertical o diagonal.
+
  </div>
+
 
  <button onclick="reiniciar()">
   🔄 NUEVO JUEGO
  </button>
 
-</div>
 
 </div>
 
 </div>
+
+</div>
+
 
 
 <div id="final">
 
- <div class="finalBox">
 
-  <div class="finalEmoji" id="finalEmoji">
-   🏆
-  </div>
+<div class="finalBox">
 
-  <h2 id="finalTitle">
-   ¡MISIÓN CUMPLIDA!
-  </h2>
 
-  <div class="finalScore" id="finalScore"></div>
-
-  <div class="secret" id="secret"></div>
-
-  <button onclick="reiniciar()">
-   🎮 JUGAR DE NUEVO
-  </button>
-
+ <div class="finalEmoji" id="finalEmoji">
+  🏆
  </div>
+
+
+ <h2 id="finalTitle">
+  ¡MISIÓN CUMPLIDA!
+ </h2>
+
+
+ <div class="finalScore" id="finalScore"></div>
+
+
+ <div class="secret" id="secret"></div>
+
+
+ <button onclick="reiniciar()">
+  🎮 JUGAR DE NUEVO
+ </button>
+
+
+</div>
 
 </div>
 
 
+
 <script>
 
+
 /* =====================================================
-   TAMAÑO DEL TABLERO
+   CONFIGURACIÓN
 ===================================================== */
 
 const TAMANO = 12;
 
 
 /* =====================================================
-   NIVELES
+   PALABRAS DE LOS 3 NIVELES
 ===================================================== */
 
+/*
+   IMPORTANTE:
+   Ninguna palabra se repite en todo el juego.
+*/
+
 const niveles = [
+
 
 /* =====================================================
    NIVEL 1
@@ -405,17 +477,40 @@ const niveles = [
 
  palabras:[
 
-  ["PLANETA",0,0,0,6],
+  {
+   palabra:"PLANETA",
+   filaInicial:9,
+   columnaInicial:1,
+   filaFinal:3,
+   columnaFinal:1
+  },
 
-  ["ESCUELA",2,1,2,7],
+  {
+   palabra:"ESCUELA",
+   filaInicial:3,
+   columnaInicial:6,
+   filaFinal:9,
+   columnaFinal:0
+  },
 
-  ["AMISTAD",5,0,5,6],
+  {
+   palabra:"AMISTAD",
+   filaInicial:1,
+   columnaInicial:2,
+   filaFinal:7,
+   columnaFinal:8
+  },
 
-  ["CIENCIA",8,1,8,7]
+  {
+   palabra:"CIENCIA",
+   filaInicial:9,
+   columnaInicial:8,
+   filaFinal:3,
+   columnaFinal:2
+  }
 
- ],
+ ]
 
- pistas:[]
 },
 
 
@@ -428,56 +523,56 @@ const niveles = [
 
  palabras:[
 
-  /*
-   NATURALEZA
-   Horizontal
-  */
+  {
+   palabra:"NATURALEZA",
+   filaInicial:0,
+   columnaInicial:3,
+   filaFinal:9,
+   columnaFinal:3
+  },
 
-  ["NATURALEZA",0,0,0,9],
+  {
+   palabra:"AVENTURA",
+   filaInicial:5,
+   columnaInicial:10,
+   filaFinal:5,
+   columnaFinal:3
+  },
 
+  {
+   palabra:"ANIMALES",
+   filaInicial:9,
+   columnaInicial:10,
+   filaFinal:2,
+   columnaFinal:10
+  },
 
-  /*
-   AVENTURA
-   Diagonal
-  */
+  {
+   palabra:"EXPLORAR",
+   filaInicial:3,
+   columnaInicial:0,
+   filaFinal:10,
+   columnaFinal:7
+  },
 
-  ["AVENTURA",2,0,9,7],
+  {
+   palabra:"LECTURA",
+   filaInicial:8,
+   columnaInicial:6,
+   filaFinal:2,
+   columnaFinal:6
+  },
 
+  {
+   palabra:"MUSICA",
+   filaInicial:6,
+   columnaInicial:10,
+   filaFinal:6,
+   columnaFinal:5
+  }
 
-  /*
-   ANIMALES
-   Vertical
-  */
+ ]
 
-  ["ANIMALES",1,11,8,11],
-
-
-  /*
-   LECTURA
-   Horizontal
-  */
-
-  ["LECTURA",4,2,4,8],
-
-
-  /*
-   PLANETA
-   Horizontal
-  */
-
-  ["PLANETA",6,0,6,6],
-
-
-  /*
-   CIENCIA
-   Vertical
-  */
-
-  ["CIENCIA",3,9,9,9]
-
- ],
-
- pistas:[]
 },
 
 
@@ -490,95 +585,95 @@ const niveles = [
 
  palabras:[
 
-  /*
-   MISTERIO
-   Horizontal
-  */
+  {
+   palabra:"MISTERIO",
+   filaInicial:7,
+   columnaInicial:10,
+   filaFinal:0,
+   columnaFinal:3
+  },
 
-  ["MISTERIO",0,3,0,10],
+  {
+   palabra:"LIBERTAD",
+   filaInicial:3,
+   columnaInicial:3,
+   filaFinal:3,
+   columnaFinal:10
+  },
 
+  {
+   palabra:"IMAGINAR",
+   filaInicial:1,
+   columnaInicial:11,
+   filaFinal:8,
+   columnaFinal:4
+  },
 
-  /*
-   AVENTURA
-   Horizontal
-  */
+  {
+   palabra:"APRENDER",
+   filaInicial:8,
+   columnaInicial:11,
+   filaFinal:8,
+   columnaFinal:4
+  },
 
-  ["AVENTURA",2,1,2,8],
+  {
+   palabra:"FAMILIA",
+   filaInicial:6,
+   columnaInicial:4,
+   filaFinal:0,
+   columnaFinal:4
+  },
 
+  {
+   palabra:"DESAFIO",
+   filaInicial:2,
+   columnaInicial:7,
+   filaFinal:8,
+   columnaFinal:1
+  },
 
-  /*
-   FAMILIA
-   Horizontal
-  */
+  {
+   palabra:"FUTURO",
+   filaInicial:3,
+   columnaInicial:1,
+   filaFinal:8,
+   columnaFinal:1
+  },
 
-  ["FAMILIA",4,0,4,6],
+  {
+   palabra:"AMIGOS",
+   filaInicial:1,
+   columnaInicial:2,
+   filaFinal:1,
+   columnaFinal:7
+  },
 
+  {
+   palabra:"EQUIPO",
+   filaInicial:4,
+   columnaInicial:2,
+   filaFinal:9,
+   columnaFinal:2
+  },
 
-  /*
-   DESAFIO
-   Vertical
-  */
+  {
+   palabra:"JUEGO",
+   filaInicial:5,
+   columnaInicial:6,
+   filaFinal:1,
+   columnaFinal:6
+  }
 
-  ["DESAFIO",1,10,7,10],
+ ]
 
-
-  /*
-   PLANETA
-   Horizontal
-  */
-
-  ["PLANETA",6,1,6,7],
-
-
-  /*
-   MUSICA
-   Vertical
-  */
-
-  ["MUSICA",7,0,11,0],
-
-
-  /*
-   FUTURO
-   Horizontal
-  */
-
-  ["FUTURO",8,3,8,8],
-
-
-  /*
-   AMIGOS
-   Horizontal
-  */
-
-  ["AMIGOS",10,3,10,8],
-
-
-  /*
-   EQUIPO
-   Vertical
-  */
-
-  ["EQUIPO",5,8,0,8],
-
-
-  /*
-   JUEGO
-   Diagonal
-  */
-
-  ["JUEGO",11,6,7,2]
-
- ],
-
- pistas:[]
 }
 
 ];
 
 
 /* =====================================================
-   LETRAS PARA COMPLETAR
+   LETRAS
 ===================================================== */
 
 const letras =
@@ -614,44 +709,64 @@ let temporizador;
 
 function crearTablero(){
 
- tablero = Array.from(
-  {length:TAMANO},
-  () => Array(TAMANO).fill("")
- );
+ tablero =
+  Array.from(
+   {length:TAMANO},
+   () => Array(TAMANO).fill("")
+  );
 
 
- const datos =
+ const palabras =
   niveles[nivelActual].palabras;
 
 
- datos.forEach(elemento => {
+ /*
+    COLOCAMOS LAS PALABRAS
+ */
+
+ palabras.forEach(objeto => {
 
   const palabra =
-   elemento[0];
+   objeto.palabra;
+
 
   const filaInicial =
-   elemento[1];
+   objeto.filaInicial;
+
 
   const columnaInicial =
-   elemento[2];
+   objeto.columnaInicial;
+
 
   const filaFinal =
-   elemento[3];
+   objeto.filaFinal;
+
 
   const columnaFinal =
-   elemento[4];
+   objeto.columnaFinal;
+
+
+  const pasos =
+   Math.max(
+    Math.abs(
+     filaFinal-filaInicial
+    ),
+    Math.abs(
+     columnaFinal-columnaInicial
+    )
+   );
 
 
   const direccionFila =
-   Math.sign(
-    filaFinal-filaInicial
-   );
+   filaFinal === filaInicial
+    ? 0
+    : (filaFinal-filaInicial)/pasos;
 
 
   const direccionColumna =
-   Math.sign(
-    columnaFinal-columnaInicial
-   );
+   columnaFinal === columnaInicial
+    ? 0
+    : (columnaFinal-columnaInicial)/pasos;
 
 
   for(
@@ -671,8 +786,8 @@ function crearTablero(){
 
 
    /*
-      Si ya hay una letra,
-      debe ser la misma.
+      Si hay una letra,
+      debe coincidir.
    */
 
    if(
@@ -681,10 +796,8 @@ function crearTablero(){
    ){
 
     console.error(
-     "Cruce incorrecto:",
-     palabra,
-     fila,
-     columna
+     "ERROR DE CRUCE:",
+     palabra
     );
 
    }
@@ -698,9 +811,9 @@ function crearTablero(){
  });
 
 
- /* =================================================
-    COMPLETAR ESPACIOS
- ================================================= */
+ /*
+    COMPLETAMOS LOS ESPACIOS
+ */
 
  for(
   let fila=0;
@@ -715,7 +828,7 @@ function crearTablero(){
   ){
 
    if(
-    !tablero[fila][columna]
+    tablero[fila][columna] === ""
    ){
 
     tablero[fila][columna] =
@@ -742,6 +855,7 @@ function dibujarTablero(){
 
  const cuadricula =
   document.getElementById("grid");
+
 
  cuadricula.innerHTML = "";
 
@@ -773,12 +887,17 @@ function dibujarTablero(){
    celda.dataset.fila =
     fila;
 
+
    celda.dataset.columna =
     columna;
 
 
-   celda.onclick = () =>
-    seleccionarCelda(celda);
+   celda.onclick =
+    function(){
+
+     seleccionarCelda(celda);
+
+    };
 
 
    cuadricula.appendChild(celda);
@@ -791,7 +910,7 @@ function dibujarTablero(){
 
 
 /* =====================================================
-   DIBUJAR PALABRAS
+   MOSTRAR PALABRAS
 ===================================================== */
 
 function dibujarPalabras(){
@@ -799,11 +918,12 @@ function dibujarPalabras(){
  const contenedor =
   document.getElementById("words");
 
+
  contenedor.innerHTML = "";
 
 
- niveles[nivelActual].palabras.forEach(
-  elemento => {
+ niveles[nivelActual].palabras
+  .forEach(objeto => {
 
    const palabra =
     document.createElement("div");
@@ -814,19 +934,18 @@ function dibujarPalabras(){
 
 
    palabra.id =
-    "word-" + elemento[0];
+    "word-"+objeto.palabra;
 
 
    palabra.textContent =
-    elemento[0];
+    objeto.palabra;
 
 
    contenedor.appendChild(
     palabra
    );
 
-  }
- );
+  });
 
 }
 
@@ -849,9 +968,9 @@ function seleccionarCelda(celda){
   Number(celda.dataset.columna);
 
 
- /* =================================================
+ /*
     PRIMERA LETRA
- ================================================= */
+ */
 
  if(!primeraCelda){
 
@@ -871,13 +990,16 @@ function seleccionarCelda(celda){
  }
 
 
- /* =================================================
+ /*
     SEGUNDA LETRA
- ================================================= */
+ */
 
  const segundaCelda = {
+
   fila:fila,
+
   columna:columna
+
  };
 
 
@@ -891,9 +1013,9 @@ function seleccionarCelda(celda){
  limpiarSeleccion();
 
 
- /* =================================================
+ /*
     NO ES UNA PALABRA
- ================================================= */
+ */
 
  if(!palabra){
 
@@ -910,6 +1032,9 @@ function seleccionarCelda(celda){
   );
 
 
+  primeraCelda = null;
+
+
   if(vidas<=0){
 
    finalizar(false);
@@ -917,16 +1042,14 @@ function seleccionarCelda(celda){
   }
 
 
-  primeraCelda = null;
-
   return;
 
  }
 
 
- /* =================================================
+ /*
     YA ENCONTRADA
- ================================================= */
+ */
 
  if(
   palabrasEncontradas.includes(
@@ -946,9 +1069,9 @@ function seleccionarCelda(celda){
  }
 
 
- /* =================================================
+ /*
     PALABRA ENCONTRADA
- ================================================= */
+ */
 
  palabrasEncontradas.push(
   palabra
@@ -961,15 +1084,15 @@ function seleccionarCelda(celda){
  );
 
 
- const elementoPalabra =
+ const palabraVisual =
   document.getElementById(
    "word-"+palabra
   );
 
 
- if(elementoPalabra){
+ if(palabraVisual){
 
-  elementoPalabra.classList.add(
+  palabraVisual.classList.add(
    "found"
   );
 
@@ -992,9 +1115,9 @@ function seleccionarCelda(celda){
  primeraCelda = null;
 
 
- /* =================================================
-    CAMBIAR DE NIVEL
- ================================================= */
+ /*
+    CAMBIO DE NIVEL
+ */
 
  if(
   palabrasEncontradas.length ===
@@ -1006,50 +1129,62 @@ function seleccionarCelda(celda){
    niveles.length-1
   ){
 
-   setTimeout(() => {
-
-    nivelActual++;
-
-    palabrasEncontradas = [];
-
-    primeraCelda = null;
-
-
-    document.getElementById("level")
-     .textContent =
-     nivelActual+1;
-
-
-    document.getElementById("levelTitle")
-     .textContent =
-     niveles[nivelActual].titulo;
-
-
-    crearTablero();
-
-    dibujarTablero();
-
-    dibujarPalabras();
-
-
-    mostrarMensaje(
-     "🚀 ¡NIVEL SUPERADO! Ahora viene uno más difícil."
-    );
-
-
-   },800);
-
+   setTimeout(
+    cambiarNivel,
+    800
+   );
 
   }else{
 
    setTimeout(
-    () => finalizar(true),
+    function(){
+
+     finalizar(true);
+
+    },
     800
    );
 
   }
 
  }
+
+}
+
+
+/* =====================================================
+   CAMBIAR NIVEL
+===================================================== */
+
+function cambiarNivel(){
+
+ nivelActual++;
+
+ palabrasEncontradas = [];
+
+ primeraCelda = null;
+
+
+ document.getElementById("level")
+  .textContent =
+  nivelActual+1;
+
+
+ document.getElementById("levelTitle")
+  .textContent =
+  niveles[nivelActual].titulo;
+
+
+ crearTablero();
+
+ dibujarTablero();
+
+ dibujarPalabras();
+
+
+ mostrarMensaje(
+  "🚀 ¡NIVEL SUPERADO!"
+ );
 
 }
 
@@ -1069,13 +1204,12 @@ function obtenerPalabra(a,b){
 
 
  /*
-    Solo permitimos:
+    SOLO:
 
-    Horizontal
-    Vertical
-    Diagonal
+    HORIZONTAL
+    VERTICAL
+    DIAGONAL
  */
-
 
  if(
   diferenciaFila !== 0 &&
@@ -1096,7 +1230,7 @@ function obtenerPalabra(a,b){
   );
 
 
- if(pasos < 1){
+ if(pasos<1){
 
   return null;
 
@@ -1140,17 +1274,17 @@ function obtenerPalabra(a,b){
  }
 
 
- /* =================================================
-    COMPROBAR PALABRAS
- ================================================= */
+ /*
+    COMPROBAMOS CONTRA LAS PALABRAS
+ */
 
  for(
-  const elemento
+  const objeto
   of niveles[nivelActual].palabras
  ){
 
-  const palabraObjetivo =
-   elemento[0];
+  const palabra =
+   objeto.palabra;
 
 
   /*
@@ -1158,10 +1292,10 @@ function obtenerPalabra(a,b){
   */
 
   if(
-   texto === palabraObjetivo
+   texto === palabra
   ){
 
-   return palabraObjetivo;
+   return palabra;
 
   }
 
@@ -1174,11 +1308,10 @@ function obtenerPalabra(a,b){
    texto
     .split("")
     .reverse()
-    .join("") ===
-   palabraObjetivo
+    .join("") === palabra
   ){
 
-   return palabraObjetivo;
+   return palabra;
 
   }
 
@@ -1241,7 +1374,7 @@ function marcarPalabra(a,b){
 
   const celda =
    document.querySelector(
-    `.cell[data-fila="${fila}"][data-columna="${columna}"]`
+    '.cell[data-fila="'+fila+'"][data-columna="'+columna+'"]'
    );
 
 
@@ -1265,21 +1398,22 @@ function marcarPalabra(a,b){
 function limpiarSeleccion(){
 
  document
-  .querySelectorAll(
-   ".cell.selected"
-  )
+  .querySelectorAll(".cell.selected")
   .forEach(
-   celda =>
+   function(celda){
+
     celda.classList.remove(
      "selected"
-    )
+    );
+
+   }
   );
 
 }
 
 
 /* =====================================================
-   MOSTRAR MENSAJE
+   MENSAJES
 ===================================================== */
 
 function mostrarMensaje(texto){
@@ -1298,12 +1432,15 @@ function mostrarMensaje(texto){
   "block";
 
 
- setTimeout(() => {
+ setTimeout(
+  function(){
 
-  caja.style.display =
-   "none";
+   caja.style.display =
+    "none";
 
- },1500);
+  },
+  1500
+ );
 
 }
 
@@ -1320,33 +1457,36 @@ function iniciarTemporizador(){
 
 
  temporizador =
-  setInterval(() => {
+  setInterval(
+   function(){
 
-   if(!jugando)
-    return;
-
-
-   tiempo--;
+    if(!jugando)
+     return;
 
 
-   document.getElementById("time")
-    .textContent =
-    tiempo;
+    tiempo--;
 
 
-   if(tiempo<=0){
+    document.getElementById("time")
+     .textContent =
+     tiempo;
 
-    finalizar(false);
 
-   }
+    if(tiempo<=0){
 
-  },1000);
+     finalizar(false);
+
+    }
+
+   },
+   1000
+  );
 
 }
 
 
 /* =====================================================
-   FINAL DEL JUEGO
+   FINALIZAR
 ===================================================== */
 
 function finalizar(gano){
@@ -1359,13 +1499,8 @@ function finalizar(gano){
  );
 
 
- const ventanaFinal =
-  document.getElementById(
-   "final"
-  );
-
-
- ventanaFinal.style.display =
+ document.getElementById("final")
+  .style.display =
   "flex";
 
 
@@ -1465,22 +1600,22 @@ function reiniciar(){
 
  document.getElementById("points")
   .textContent =
-  0;
+  "0";
 
 
  document.getElementById("lives")
   .textContent =
-  3;
+  "3";
 
 
  document.getElementById("time")
   .textContent =
-  120;
+  "120";
 
 
  document.getElementById("level")
   .textContent =
-  1;
+  "1";
 
 
  document.getElementById("final")
@@ -1515,3 +1650,4 @@ reiniciar();
 </body>
 </html>
 ```
+
